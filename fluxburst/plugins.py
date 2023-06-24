@@ -39,7 +39,7 @@ class BurstPlugin:
         # Set of jobs assigned to be bursted
         self.jobs = {}
 
-    def schedule(self, *args, **kwargs):
+    def schedule(self, job):
         """
         Attempt to schedule a job, if possible.
         """

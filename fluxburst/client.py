@@ -134,11 +134,12 @@ class FluxBurst:
         more fine-tuned logic for directing jobs to plugins.
         """
         # Run filters across queue to select jobs
+        # This is a dict, keys with job id, values jobinfo
         jobs = self.select_jobs()
 
         # Going through plugins, determine if matches and can run
         unmatched = []
-        for job in jobs:
+        for _, job in jobs.items():
             for _, plugin in self.iter_plugins():
                 # Give to first burstable plugin that can accept
                 if plugin.schedule(job):
