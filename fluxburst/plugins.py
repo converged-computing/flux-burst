@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (MIT)
 
 import importlib
+import os
 import pkgutil
 from dataclasses import dataclass
 
@@ -56,10 +57,21 @@ class BurstPlugin:
         to select and move around custom arguments, if needed.
         """
         params = {}
+        envars = {}
+
+        # Get params from the environment
+        for key, value in os.environ.items():
+            if not key.startswith("FLUXBURST_"):
+                continue
+            key = key.replace("FLUXBURST_", "").lower()
+            envars[key] = value
 
         # Only derive those provided by the dataclass
         for arg in dir(self._param_dataclass):
-            if arg in kwargs:
+            # First priority to environment
+            if arg in envars:
+                params[arg] = envars[arg]
+            elif arg in kwargs:
                 params[arg] = kwargs[arg]
 
         # At this point we want to convert the args <dataclasses> back into dataclass
