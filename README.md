@@ -263,7 +263,7 @@ for implementing plugins, this one was chose for its simplicity. Our setup suppo
 
 Each plugin is expected to have, at the top level of the module (e.g., `fluxburst_<name>.<func>`), the following functions or attributes for flux-burst:
 
-**TODO**
+ - *init* a basic function that does checks / imports the main plugin class, and returns it instantiated with the dataclass as the only argument.
 
 More detail on the above is provided below.
 
@@ -300,9 +300,18 @@ This tool is under development and is not ready for production use.
 Desired plugins are:
 
  - [local mock](https://github.com/flux-framework/flux-sched/issues/1009#issuecomment-1603636498)
- - [Google Cloud](https://github.com/flux-framework/flux-operator/pull/183/files)
+ - [Google Cloud](https://github.com/converged-computing/flux-burst-gke)
  - AWS (not written yet)
 
+
+## Questions
+
+- How should the plugins manage checking when to create / destroy clusters?
+- Can we have a better strategy for namespacing different bursts (e.g., beyond burst-0, burst-1, ..., burst-N)
+- We need a reasonable default for what a plugin should do if something fails (e.g., setup/config)
+- How should each plugin decide what size cluster to make? Right now I'm just taking the max size of the job, and we are assuming the jobs need the same node type.
+- munge.key is a secret - but curve cert is an attribute (string) in the CRD. Should it be a secret too? It adds complexity, but if it's the right thing to do, we should do it.
+- We will eventually want to use namespaces in a meaningful way (e.g., users)
 
 ## 😁️ Contributors 😁️
 
