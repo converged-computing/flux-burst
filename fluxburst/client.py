@@ -144,12 +144,8 @@ class FluxBurst:
                 # Give to first burstable plugin that can accept
                 if plugin.schedule(job):
                     # Remove the burstable attribute so it isn't assigned to another
-                    # There should be some fallback that if the job is still in the queue
-                    # after X time, we consider it again. Or some better way!
-                    print("TODO remove burstable attribute if we get here")
-                    import IPython
-
-                    IPython.embed()
+                    # This is more for development - we could likely use a better way
+                    self.mark_as_scheduled(job, plugin.name)
                     continue
 
             # But if we cannot match, return to caller
@@ -158,6 +154,27 @@ class FluxBurst:
         if unmatched:
             logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
         return unmatched
+
+    def mark_as_scheduled(self, job, plugin_name):
+        """
+        Mark a job as scheduled.
+
+        For now, we just remove the burstable attribute to indicate
+        that it's been scheduled. We also add the plugin it was scheduled
+        with, in case we somehow need to regenerate/remember a burst.
+        """
+        # Add an attribute that says "this job is assigned to burstable plugin X"
+        job["spec"]["attributes"]["system"]["burst-scheduled"] = plugin_name
+
+        # The job is no longer marked as burstable for other plugins
+        if "burstable" in job["spec"]["attributes"]["system"]:
+            del job["spec"]["attributes"]["system"]["burstable"]
+
+        # Update the KVS (is this possible)?
+        # This doesn't currently work, so not doing anything :)
+        kvs = flux.job.job_kvs(self.handle, job["id"])
+        kvs["jobspec"] = job["spec"]
+        kvs.commit()
 
     def select_jobs(self):
         """
