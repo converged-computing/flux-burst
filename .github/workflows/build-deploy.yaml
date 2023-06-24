@@ -1,0 +1,48 @@
+name: build flux-burst
+
+on:
+
+  # Publish packages on release
+  release:
+    types: [published]
+
+  pull_request: []
+
+  # On push to main we build and deploy images
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    permissions:
+      packages: write
+
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Build Container
+      run: docker build -t ghcr.io/converged-computing/flux-burst:latest .
+
+    - name: GHCR Login
+      if: (github.event_name != 'pull_request')
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Tag and Push Release Image
+      if: (github.event_name == 'release')
+      run: |
+        tag=${GITHUB_REF#refs/tags/}
+        echo "Tagging and releasing ghcr.io/converged-computing/flux-burst:${tag}"
+        docker tag ghcr.io/converged-computing/flux-burst:latest ghcr.io/converged-computing/flux-burst:${tag}
+        docker push ghcr.io/converged-computing/flux-burst:${tag}
+
+    - name: Deploy
+      if: (github.event_name != 'pull_request')
+      run: docker push ghcr.io/converged-computing/flux-burst:latest

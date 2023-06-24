@@ -171,7 +171,7 @@ client.set_ordering(in_order)
 
 Note that the function is expected to take the dictionary (ordered dict)
 of plugins that are known to the client. If we need to extend this
-to add custom variables that is possible, however you plugin sublass
+to add custom variables that is possible, however you plugin subclass
 already has support for this customization in being a class that you write!
 
 ## Development

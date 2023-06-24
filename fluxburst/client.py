@@ -14,8 +14,6 @@ from fluxburst.logger import logger
 
 from .plugins import burstable_plugins
 
-# For now, import Flux here. We assume all plugins need it.
-
 
 class FluxBurst:
     """
@@ -49,9 +47,36 @@ class FluxBurst:
         if name not in burstable_plugins:
             raise ValueError(f"Plugin {name} is not known. Choices are {self.choices}")
 
-        # TODO we need to validate the plugin here
-        # If we get here, we know the plugin and can add it
-        self.plugins[name] = burstable_plugins[name](**kwargs)
+        # Validate the plugin, first plugin module then loaded class
+        self.validate_module(name)
+        plugin = burstable_plugins[name].init(**kwargs)
+
+        # We set the name attribute so it's always matched to the module
+        plugin.name = name
+        self.validate_plugin(name)
+        self.plugins[name] = plugin
+
+    def validate_module(self, name):
+        """
+        Validate the structure of the module.
+
+        We currently just require the init function to import and return the class
+        """
+        if not hasattr(burstable_plugins[name], "init"):
+            raise ValueError(
+                f"Plugin {name} is missing required init attribute to return BurstPlugin class."
+            )
+
+    def validate_plugin(self, plugin):
+        """
+        Validate a plugin, and if valid, load into module.
+        """
+        required_attributes = ["schedule", "run", "_param_dataclass", "set_params"]
+        for required in required_attributes:
+            if not hasattr(plugin, required):
+                raise ValueError(
+                    f"Plugin {plugin.name} is not valid, missing attribute or function {required}"
+                )
 
     def set_selector(self, func):
         """
