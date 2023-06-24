@@ -1,0 +1,188 @@
+# Copyright 2023 Lawrence Livermore National Security, LLC and other
+# HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+
+import collections
+
+import flux
+import flux.job
+
+import fluxburst.selectors as selectors
+import fluxburst.sorting as sorting
+from fluxburst.logger import logger
+
+from .plugins import burstable_plugins
+
+# For now, import Flux here. We assume all plugins need it.
+
+
+class FluxBurst:
+    """
+    Flux Burst Client
+    """
+
+    def __init__(self, handle):
+        """
+        Create a new burst client.
+
+        Selectors: Process the current queue and add flags/filter jobs for plugins.
+        Plugins: take jobs that need bursting, and burst some subset.
+        A filter can (on the simplest terms) just look for a job flagged as
+        burstable. For more complex cases, it can perform it's own logic and
+        flag some subset as burstable instead.
+        """
+        self.reset_selector()
+        self.reset_plugins()
+        self.handle = handle or flux.Flux()
+
+    @property
+    def choices(self):
+        return "|".join(list(self.plugins))
+
+    def load(self, name, **kwargs):
+        """
+        Register a bursting plugin manually.
+
+        We assume a setup does not always want all plugins available.
+        """
+        if name not in burstable_plugins:
+            raise ValueError(f"Plugin {name} is not known. Choices are {self.choices}")
+
+        # TODO we need to validate the plugin here
+        # If we get here, we know the plugin and can add it
+        self.plugins[name] = burstable_plugins[name](**kwargs)
+
+    def set_selector(self, func):
+        """
+        Register a job filter or selector for select_jobs.
+        """
+        self._job_selector = func
+
+    def reset_plugins(self):
+        self.plugins = collections.OrderedDict()
+
+    def reset_selector(self):
+        self._job_selector = selectors.is_burstable
+
+    def run_burst(self):
+        """
+        A full run burst includes:
+
+        1. Selecting jobs using the client filter(s)
+        2. In the order of plugins desired, schedule jobs
+        3. Return back lookup of scheduled (by plugin)
+        """
+        # TODO what to do with unmatched jobs?
+        unmatched = self.process_queue()
+
+        # When we get here, run the bursts
+        for _, plugin in self.iter_plugins():
+            plugin.run()
+        return unmatched
+
+    def set_ordering(self, func):
+        """
+        Set a custom function that knows how to yield names, plugins.
+        """
+        self._iter_func = func
+
+    def iter_plugins(self):
+        """
+        Custom function to iterate over plugins
+        """
+        if not self._iter_func:
+            self._iter_func = sorting.in_order
+
+        for name, plugin in self._iter_func:
+            yield name, plugin
+
+    def process_queue(self):
+        """
+        Process queue is the entrypoint to run one burst cycle.
+
+        We first apply any selectors to the queue, and then hand the
+        resulting filtered jobs off to burstable plugins. There could be
+        more fine-tuned logic for directing jobs to plugins.
+        """
+        # Run filters across queue to select jobs
+        jobs = self.select_jobs()
+
+        # Going through plugins, determine if matches and can run
+        unmatched = []
+        for job in jobs:
+            for _, plugin in self.iter_plugins():
+                # Give to first burstable plugin that can accept
+                if plugin.schedule(job):
+                    # Remove the burstable attribute so it isn't assigned to another
+                    # There should be some fallback that if the job is still in the queue
+                    # after X time, we consider it again. Or some better way!
+                    print("TODO remove burstable attribute if we get here")
+                    import IPython
+
+                    IPython.embed()
+                    continue
+
+            # But if we cannot match, return to caller
+            unmatched.append(job)
+
+        if unmatched:
+            logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
+        return unmatched
+
+    def select_jobs(self):
+        """
+        Use filters to select jobs.
+        """
+        # Keep track of selected burstable jobs
+        listing = flux.job.job_list(self.handle).get()
+        selected = []
+        print("TODO ensure that unique")
+        import IPython
+
+        IPython.embed()
+        for job in listing.get("jobs", []):
+            info = self.get_job_info(job["id"])
+            if not self._job_selector(info):
+                continue
+            print(f"🧋️  Job {job['id']} is marked for bursting.")
+            selected.append(info)
+
+        # Reduce to unique set (could also do as we go)
+        print("REDUCE")
+        import IPython
+
+        IPython.embed()
+
+        if not selected:
+            logger.exit("No jobs were found marked for burstable.")
+        return selected
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return "[flux-burst-client]"
+
+    def get_job_info(self, jobid):
+        """
+        Get job info based on an id
+
+        Also retrieve the full job info and jobspec.
+        This is not yet currently perfectly json serializable, need to
+        handle EmptyObject if that is desired.
+        """
+        fluxjob = flux.job.JobID(jobid)
+        payload = {"id": fluxjob, "attrs": ["all"]}
+        rpc = flux.job.list.JobListIdRPC(self.handle, "job-list.list-id", payload)
+        job = rpc.get_job()
+
+        # Job info, timing, priority, etc.
+        job["info"] = rpc.get_jobinfo().__dict__
+        job["info"]["_exception"] = job["info"]["_exception"].__dict__
+        job["info"]["_annotations"] = job["info"]["_annotations"].__dict__
+
+        # the KVS will have annotations!
+        kvs = flux.job.job_kvs(self.handle, jobid)
+        job["spec"] = kvs.get("jobspec")
+        return job

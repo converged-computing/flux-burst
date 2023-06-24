@@ -1,0 +1,14 @@
+include README.md
+include COPYRIGHT
+recursive-include fluxburst *.png
+recursive-include fluxburst *.sh
+recursive-include fluxburst *
+recursive-include * *.png
+prune env*
+global-exclude .env
+global-exclude *.py[co]
+recursive-exclude .git *
+global-exclude __pycache__
+prune docs*
+prune fluxburst/tests
+prune apigen

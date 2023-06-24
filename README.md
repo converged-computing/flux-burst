@@ -1,0 +1,277 @@
+# Flux Burst
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![PyPI](https://img.shields.io/pypi/v/flux-burst)](https://pypi.org/project/flux-burst/)
+
+<!--<a target="_blank" rel="noopener noreferrer" href="https://github.com/converged-computing/flux-burst/blob/main/docs/assets/img/logo-transparent.png">
+    <img align="right" style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/flux-burst/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
+</a>-->
+
+This will be a plugin (somewhere) that controls Flux bursting. 🧋️
+
+## Frequently Asked Questions
+
+> What is a burst?
+
+A traditional burst means extening some local Flux Cluster with a remote. That "remote" can actually be:
+
+- a cloud cluster (existing or not)
+- a second cluster
+- a mocked cluster
+
+The main idea is that the main Flux Cluster is not just creating additional resources, but connecting
+the local broker to the new external one. This is different from what we might consider an isolated
+burst, where a first cluster creates an entirely new second cluster.
+
+> How does the design here work?
+
+This library uses a plugin architecture, meaning that if you want to add a new kind of burstable,
+you do so by way of writing a plugin. Instructions for writing a plugin are included below.
+
+## Usage
+
+### Tutorial
+
+For this tutorial you will need Docker installer.
+
+[Flux-framework](https://flux-framework.org/) is a flexible resource scheduler that can work on both high performance computing systems and cloud (e.g., Kubernetes).
+Since it is more modern (e.g., has an official Python API) we define it under a cloud resource. For this example, we will show you how to set up a "single node" local
+Flux container to interact with the bursting plugin here. You can use the [Dockerfile](examples/Dockerfile) that will provide a container with Flux and flux burst
+First, build the container and shell in:
+
+```bash
+$ docker build -f examples/Dockerfile -t flux-burst .
+$ docker run -it flux-snake bash
+```
+
+And start a flux instance:
+
+```bash
+$ flux start --test-size=4
+```
+
+**under development**
+
+### Customization
+
+The Flux burst module does the following:
+
+ 1. Discovers burstable plugins on the system that start with `fluxburst_<name>`
+ 2. Load one or more plugins of your choosing with `client.load(...)`
+ 3. On a call to run:
+   a. We call the filter function to select jobs that are candidates for bursting (via any plugin)
+   b. We use a default (or customized) bursting selection function (e.g., controlling logic for how to choose a plugin)
+   c. We iterate through our plugins, and assign matched jobs to burst
+   d. We run the bursts
+
+From the above, this means that you can customize the following:
+
+- The plugins discovered as available on the system
+- The plugins you choose to load for a particular instance
+- The filter or selection function to select a subset of burstable jobs
+- The iterable that chooses the ordering of plugins
+
+Each of the above will be discussed further in detail in the sections below.
+
+#### Bursting Plugins
+
+Bursting plugins are customized by way of installing a plugin with prefix `fluxburst_<name>` and then
+loading them with your client:
+
+```python
+from fluxburst.client import FluxBurst
+
+client = FluxBurst()
+
+# Let's say we did pip install fluxburst_gke
+# **kwargs would be any specific keyword arguments for GKE
+client.load("gke", **kwargs)
+```
+
+For the above, we might have installed the `fluxburst_gke` plugin, and then `**kwargs`
+might include Google Cloud specific arguments for it. If we don't want to customize
+anything else (and use the defaults) we would then proceed to use the client to
+run a burst:
+
+```python
+client.run_burst()
+```
+
+The above is assumed to be running in a Python environment that can connect to the main
+Flux broker instance.
+
+#### Selectors
+
+Before any bursting is done, the queue needs to be filtered. Selection means
+using some algorithm to separate the jobs that are indicated to be burstable
+vs those that are not.  For the simple default implementation, we simply choose
+to pass through jobs that have the attribute "burstable" and ignore the rest.
+Here is an example of our function that knows how to do that - it will expect
+a single job info (in json) as the only argument:
+
+```python
+def is_burstable(jobinfo):
+    """
+    Determine if a job is burstable if:
+
+    1. It is flagged as burstable
+    """
+    return "burstable" in jobinfo["spec"]["attributes"]["system"]
+```
+
+Here is what the job (in json) looks like that the function has access to:
+
+```python
+# TODO
+```
+
+For now, we just allow one selection function - the idea being if you want to combine
+logic, just do that in one function! Here is how you'd provide your custom function to the class:
+
+```python
+from fluxburst.client import FluxBurst
+
+client = FluxBurst()
+client.set_selector(func)
+```
+
+Of course this is just an example - you don't have to set this function because the default
+is expecting the "burstable=True" attribute to be set.
+
+#### Plugin Ordering
+
+By default, the set of plugins added are added as an ordered dictionary,
+meaning they are yielded back in the order added. However, it could be the case
+that you want to order the logic of your plugins (or filter them down specifically
+to a subset) before running the burst. This is where you might want a custom function.
+Here is an example of writing a function (actually, this is the default)!
+
+```python
+def in_order(plugins):
+    """
+    Plugins is expected to be an ordered dict, return in order
+
+    This is designed intending to be flexible. We can add
+    additional metadata if needed
+    """
+    for name, plugin in plugins.items():
+        yield name, plugin
+```
+
+And then how to add the function to your client:
+
+```python
+from fluxburst.client import FluxBurst
+
+client = FluxBurst()
+client.set_ordering(in_order)
+```
+
+Note that the function is expected to take the dictionary (ordered dict)
+of plugins that are known to the client. If we need to extend this
+to add custom variables that is possible, however you plugin sublass
+already has support for this customization in being a class that you write!
+
+## Development
+
+### Local Development
+
+Setup your environment, and install local:
+
+```bash
+$ python -m venv env
+$ source env/bin/activate
+$ pip install -e .
+```
+
+You'll want to also install at least one plugin.
+
+### Writing a Plugin
+
+We [discover plugins](fluxburst/plugins.py) via a simple approach
+that looks for modules that start with the prefix "fluxburst_<name>" as mentioned above.
+While there are several [design approaches](https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/)
+for implementing plugins, this one was chose for its simplicity. Our setup supports:
+
+ - Install of any custom number of burstable plugins
+ - Defining a custom data class that is added to support additional parameters
+ - Customizing original queue selection of jobs, and ordering of plugins chosen
+
+Each plugin is expected to have, at the top level of the module (e.g., `fluxburst_<name>.<func>`), the following functions or attributes for flux-burst:
+
+**TODO**
+
+More detail on the above is provided below.
+
+#### dataclasses.dataclass
+
+Your plugin is driven by the custom dataclass. We chose this design because it needs to be possible
+to interact with the executor from within Python (in which case you would create the dataclass) or from
+the command line (in which case we convert from the dataclass to argparse and back again)! As an example,
+here is a very basic way to define custom arguments for your plugin via a dataclass:
+
+```python
+import fluxburst.plugins as plugins
+from typing import Optional
+from dataclasses import dataclass
+
+@dataclass
+class BurstParameters:
+    cluster_name: Optional[str] = "flux-cluster"
+    namespace: Optional[str] = "flux-operator"
+```
+
+#### BurstPlugin class
+
+We provide a `fluxburst.plugins.BurstPlugin` class that you can subclass for your plugin
+that defines the required functions, and provides the structure and shared logic for all plugins.
+We will write more here when we develop the first prototype!
+
+🚧️ **under development** 🚧️
+
+This tool is under development and is not ready for production use.
+
+## TODO
+
+Desired plugins are:
+
+ - [local mock](https://github.com/flux-framework/flux-sched/issues/1009#issuecomment-1603636498)
+ - [Google Cloud](https://github.com/flux-framework/flux-operator/pull/183/files)
+ - AWS (not written yet)
+
+
+## 😁️ Contributors 😁️
+
+We use the [all-contributors](https://github.com/all-contributors/all-contributors)
+tool to generate a contributors graphic below.
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://vsoch.github.io"><img src="https://avatars.githubusercontent.com/u/814322?v=4?s=100" width="100px;" alt="Vanessasaurus"/><br /><sub><b>Vanessasaurus</b></sub></a><br /><a href="https://github.com/converged-computing/flux-burst/commits?author=vsoch" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## License
+
+HPCIC DevTools is distributed under the terms of the MIT license.
+All new contributions must be made under this license.
+
+See [LICENSE](https://github.com/converged-computing/flux-burst/blob/main/LICENSE),
+[COPYRIGHT](https://github.com/converged-computing/flux-burst/blob/main/COPYRIGHT), and
+[NOTICE](https://github.com/converged-computing/flux-burst/blob/main/NOTICE) for details.
+
+SPDX-License-Identifier: (MIT)
+
+LLNL-CODE- 842614
