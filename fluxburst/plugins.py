@@ -11,7 +11,7 @@ import fluxburst.defaults as defaults
 
 # Executor plugins are externally installed plugins named "snakemake_executor_<name>"
 # They should follow the same convention if on pip, snakemake-executor-<name>
-executor_plugins = {
+burstable_plugins = {
     name.replace(defaults.plugin_prefix, ""): importlib.import_module(name)
     for _, name, _ in pkgutil.iter_modules()
     if name.startswith(defaults.plugin_prefix)
