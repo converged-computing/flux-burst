@@ -33,6 +33,7 @@ class FluxBurst:
         self.reset_selector()
         self.reset_plugins()
         self.handle = handle or flux.Flux()
+        self.set_ordering(sorting.in_order)
 
     @property
     def choices(self):
@@ -55,7 +56,7 @@ class FluxBurst:
 
         # We set the name attribute so it's always matched to the module
         plugin.name = name
-        self.validate_plugin(name)
+        self.validate_plugin(plugin)
         self.plugins[name] = plugin
 
     def validate_module(self, name):
@@ -121,7 +122,7 @@ class FluxBurst:
         if not self._iter_func:
             self._iter_func = sorting.in_order
 
-        for name, plugin in self._iter_func:
+        for name, plugin in self._iter_func():
             yield name, plugin
 
     def process_queue(self):
@@ -160,29 +161,24 @@ class FluxBurst:
     def select_jobs(self):
         """
         Use filters to select jobs.
-        """
-        # Keep track of selected burstable jobs
-        listing = flux.job.job_list(self.handle).get()
-        selected = []
-        print("TODO ensure that unique")
-        import IPython
 
-        IPython.embed()
+        This step is agnostic to the burstable plugins - it is simply
+        deducing (via our selector function) what jobs are contenders
+        for bursting. See the README / documentation for example info.
+        """
+        # Keep track of selected burstable jobs by id
+        listing = flux.job.job_list(self.handle).get()
+        selected = {}
+
         for job in listing.get("jobs", []):
             info = self.get_job_info(job["id"])
             if not self._job_selector(info):
                 continue
             print(f"🧋️  Job {job['id']} is marked for bursting.")
-            selected.append(info)
+            selected[job["id"]] = info
 
-        # Reduce to unique set (could also do as we go)
-        print("REDUCE")
-        import IPython
-
-        IPython.embed()
-
-        if not selected:
-            logger.exit("No jobs were found marked for burstable.")
+        # We don't give a warning here, because likely there aren't
+        # jobs that are burstable (it's a more rare event)
         return selected
 
     def __repr__(self):

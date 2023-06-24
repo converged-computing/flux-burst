@@ -121,10 +121,72 @@ def is_burstable(jobinfo):
     return "burstable" in jobinfo["spec"]["attributes"]["system"]
 ```
 
-Here is what the job (in json) looks like that the function has access to:
+Here is what the `jobinfo` variable looks like that the function has access to.
+This means that your function should take this as input, and return a boolean
+to indicate if it's burstable (or not). Note that this is not currently json serializable:
 
 ```python
-# TODO
+{'id': 12420793761792,
+ 'userid': 1000,
+ 'urgency': 16,
+ 'priority': 16,
+ 't_submit': 1687638917.9938345,
+ 't_depend': 1687638918.005533,
+ 'state': 8,
+ 'name': 'hostname',
+ 'ntasks': 4,
+ 'duration': 0.0,
+ 'nnodes': 4,
+ 'info': {'_t_depend': 1687638918.005533,
+  '_t_run': 0.0,
+  '_t_cleanup': 0.0,
+  '_t_inactive': 0.0,
+  '_duration': 0.0,
+  '_expiration': 0.0,
+  '_name': 'hostname',
+  '_queue': '',
+  '_ntasks': 4,
+  '_ncores': '',
+  '_nnodes': 4,
+  '_priority': 16,
+  '_ranks': '',
+  '_nodelist': '',
+  '_success': '',
+  '_waitstatus': '',
+  '_id': JobID(12420793761792),
+  '_userid': 1000,
+  '_urgency': 16,
+  '_t_submit': 1687638917.9938345,
+  '_state_id': 8,
+  '_result_id': '',
+  '_exception': {'occurred': '', 'severity': '', 'type': '', 'note': ''},
+  '_annotations': {'annotationsDict': {}, 'atuple': X()},
+  '_sched': ,
+  '_user': ,
+  '_dependencies': []},
+ 'spec': {'resources': [{'type': 'node',
+    'count': 4,
+    'exclusive': True,
+    'with': [{'type': 'slot',
+      'count': 1,
+      'with': [{'type': 'core', 'count': 1}],
+      'label': 'task'}]}],
+  'tasks': [{'command': ['hostname'],
+    'slot': 'task',
+    'count': {'per_slot': 1}}],
+  'attributes': {'system': {'duration': 0,
+    'cwd': '/tmp/workflow/gke',
+    'shell': {'options': {'rlimit': {'cpu': -1,
+       'fsize': -1,
+       'data': -1,
+       'stack': 8388608,
+       'core': 0,
+       'nofile': 1048576,
+       'as': -1,
+       'rss': -1,
+       'nproc': -1}}},
+    'burstable': 1}},
+  'version': 1}}
 ```
 
 For now, we just allow one selection function - the idea being if you want to combine
