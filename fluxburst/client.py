@@ -122,7 +122,7 @@ class FluxBurst:
         if not self._iter_func:
             self._iter_func = sorting.in_order
 
-        for name, plugin in self._iter_func():
+        for name, plugin in self._iter_func(self.plugins):
             yield name, plugin
 
     def process_queue(self):
