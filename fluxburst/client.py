@@ -20,7 +20,7 @@ class FluxBurst:
     Flux Burst Client
     """
 
-    def __init__(self, handle):
+    def __init__(self, handle=None):
         """
         Create a new burst client.
 
@@ -38,18 +38,20 @@ class FluxBurst:
     def choices(self):
         return "|".join(list(self.plugins))
 
-    def load(self, name, **kwargs):
+    def load(self, name, dataclass, **kwargs):
         """
         Register a bursting plugin manually.
 
         We assume a setup does not always want all plugins available.
+        The dataclass argument should be for the BurstParameters
+        specific to the plugin.
         """
         if name not in burstable_plugins:
             raise ValueError(f"Plugin {name} is not known. Choices are {self.choices}")
 
         # Validate the plugin, first plugin module then loaded class
         self.validate_module(name)
-        plugin = burstable_plugins[name].init(**kwargs)
+        plugin = burstable_plugins[name].init(dataclass)
 
         # We set the name attribute so it's always matched to the module
         plugin.name = name

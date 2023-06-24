@@ -31,8 +31,8 @@ class BurstPlugin:
 
     _param_dataclass = BurstParameters
 
-    def __init__(self, **kwargs):
-        self.set_params(**kwargs)
+    def __init__(self, dataclass, **kwargs):
+        self.set_params(dataclass)
 
         # Set of jobs assigned to be bursted
         self.jobs = {}
@@ -49,23 +49,27 @@ class BurstPlugin:
         """
         raise NotImplementedError
 
-    def set_params(self, **kwargs):
+    def set_params(self, dataclass):
         """
-        Given known parameters, set on dataclass.
+        Given known parameters, assert we have the correct dataclass
+        and update from the environment, etc.
 
         The dataclass is used by the plugin as a generic strategy
         to select and move around custom arguments, if needed.
         """
+        print('SET PARAMS')
+        import IPython 
+        IPython.embed()
         params = {}
         envars = {}
+        # TODO assert correct one
 
         # Get params from the environment
         for key, value in os.environ.items():
             if not key.startswith("FLUXBURST_"):
                 continue
             key = key.replace("FLUXBURST_", "").lower()
-            envars[key] = value
-
+            
         # Only derive those provided by the dataclass
         for arg in dir(self._param_dataclass):
             # First priority to environment
@@ -75,4 +79,4 @@ class BurstPlugin:
                 params[arg] = kwargs[arg]
 
         # At this point we want to convert the args <dataclasses> back into dataclass
-        self.params = self._param_dataclass(**kwargs)
+        self.params = dataclass
