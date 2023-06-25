@@ -86,8 +86,9 @@ from fluxburst.client import FluxBurst
 client = FluxBurst()
 
 # Let's say we did pip install fluxburst_gke
-# **kwargs would be any specific keyword arguments for GKE
-client.load("gke", **kwargs)
+# dc would be a custom dataclass for our plugin that it provides.
+# The plugins also read from FLUXBURST_ environment variables
+client.load("gke", dc)
 ```
 
 For the above, we might have installed the `fluxburst_gke` plugin, and then `**kwargs`
@@ -288,8 +289,11 @@ class BurstParameters:
 #### BurstPlugin class
 
 We provide a `fluxburst.plugins.BurstPlugin` class that you can subclass for your plugin
-that defines the required functions, and provides the structure and shared logic for all plugins.
-We will write more here when we develop the first prototype!
+that defines the required functions, and provides the structure and shared logic for all plugins. There are functions provided in the base class for parsing your dataclass,
+and you are expected to write two functions:
+
+ - *schedule*: takes one parameter, a job, and returns a boolean to indicate if it can be scheduled. If so, you should also add the job metadata to self.jobs to retrieve later. In the future this will also include assigning the right instance, etc.
+ - *run*: burst to your plugin for the self.jobs that are there. The logic here is up to you.
 
 🚧️ **under development** 🚧️
 
