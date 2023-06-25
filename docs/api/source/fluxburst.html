@@ -19,6 +19,8 @@
     <script src="../assets/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fluxburst.utils package" href="fluxburst.utils.html" />
+    <link rel="prev" title="Welcome to Flux Burst’s Python SDK" href="../index.html" />
 </head>
 
 <body class="wy-body-for-nav">
@@ -31,7 +33,7 @@
 
           <a href="../index.html">
 
-              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+              <img src="../assets/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -41,91 +43,93 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">fluxburst package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#fluxburst-client-module">fluxburst.client module</a></li>
-<li><a class="reference internal" href="#module-fluxburst.defaults">fluxburst.defaults module</a></li>
-<li><a class="reference internal" href="#module-fluxburst.logger">fluxburst.logger module</a><ul>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler</span></code></a><ul>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLACK"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLACK</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLUE</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BOLD_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BOLD_SEQ</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.COLOR_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.COLOR_SEQ</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.CYAN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.CYAN</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.GREEN</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.MAGENTA"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.MAGENTA</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RED"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RED</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RESET_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RESET_SEQ</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.WHITE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.WHITE</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.YELLOW"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.YELLOW</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.can_color_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.can_color_tty()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.colors"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.colors</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.decorate"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.decorate()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.emit"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.emit()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.is_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.is_tty</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">fluxburst package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html">fluxburst.utils package</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors"><code class="docutils literal notranslate"><span class="pre">LogColors</span></code></a><ul>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.BOLD"><code class="docutils literal notranslate"><span class="pre">LogColors.BOLD</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.ENDC"><code class="docutils literal notranslate"><span class="pre">LogColors.ENDC</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKBLUE"><code class="docutils literal notranslate"><span class="pre">LogColors.OKBLUE</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKCYAN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKCYAN</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKGREEN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKGREEN</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.PURPLE"><code class="docutils literal notranslate"><span class="pre">LogColors.PURPLE</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.RED"><code class="docutils literal notranslate"><span class="pre">LogColors.RED</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.UNDERLINE"><code class="docutils literal notranslate"><span class="pre">LogColors.UNDERLINE</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.LogColors.WARNING"><code class="docutils literal notranslate"><span class="pre">LogColors.WARNING</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fluxburst-client-module">fluxburst.client module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.defaults">fluxburst.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.logger">fluxburst.logger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLACK"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLACK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BOLD_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BOLD_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.COLOR_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.COLOR_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.CYAN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.CYAN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.MAGENTA"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.MAGENTA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RED"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RESET_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RESET_SEQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.WHITE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.WHITE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.YELLOW"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.YELLOW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.can_color_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.can_color_tty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.colors"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.colors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.decorate"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.decorate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.emit"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.emit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.is_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.is_tty</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.cleanup"><code class="docutils literal notranslate"><span class="pre">Logger.cleanup()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.debug"><code class="docutils literal notranslate"><span class="pre">Logger.debug()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.error"><code class="docutils literal notranslate"><span class="pre">Logger.error()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.exit"><code class="docutils literal notranslate"><span class="pre">Logger.exit()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.handler"><code class="docutils literal notranslate"><span class="pre">Logger.handler()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.info"><code class="docutils literal notranslate"><span class="pre">Logger.info()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.location"><code class="docutils literal notranslate"><span class="pre">Logger.location()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.progress"><code class="docutils literal notranslate"><span class="pre">Logger.progress()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.set_level"><code class="docutils literal notranslate"><span class="pre">Logger.set_level()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.set_stream_handler"><code class="docutils literal notranslate"><span class="pre">Logger.set_stream_handler()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.shellcmd"><code class="docutils literal notranslate"><span class="pre">Logger.shellcmd()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.text_handler"><code class="docutils literal notranslate"><span class="pre">Logger.text_handler()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.warning"><code class="docutils literal notranslate"><span class="pre">Logger.warning()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.Logger.yellow"><code class="docutils literal notranslate"><span class="pre">Logger.yellow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.LogColors"><code class="docutils literal notranslate"><span class="pre">LogColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.BOLD"><code class="docutils literal notranslate"><span class="pre">LogColors.BOLD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.ENDC"><code class="docutils literal notranslate"><span class="pre">LogColors.ENDC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.OKBLUE"><code class="docutils literal notranslate"><span class="pre">LogColors.OKBLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.OKCYAN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKCYAN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.OKGREEN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKGREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.PURPLE"><code class="docutils literal notranslate"><span class="pre">LogColors.PURPLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.RED"><code class="docutils literal notranslate"><span class="pre">LogColors.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.UNDERLINE"><code class="docutils literal notranslate"><span class="pre">LogColors.UNDERLINE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.LogColors.WARNING"><code class="docutils literal notranslate"><span class="pre">LogColors.WARNING</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fluxburst.logger.add_prefix"><code class="docutils literal notranslate"><span class="pre">add_prefix()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.logger.underline"><code class="docutils literal notranslate"><span class="pre">underline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.cleanup"><code class="docutils literal notranslate"><span class="pre">Logger.cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.debug"><code class="docutils literal notranslate"><span class="pre">Logger.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.error"><code class="docutils literal notranslate"><span class="pre">Logger.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.exit"><code class="docutils literal notranslate"><span class="pre">Logger.exit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.handler"><code class="docutils literal notranslate"><span class="pre">Logger.handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.info"><code class="docutils literal notranslate"><span class="pre">Logger.info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.location"><code class="docutils literal notranslate"><span class="pre">Logger.location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.progress"><code class="docutils literal notranslate"><span class="pre">Logger.progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.set_level"><code class="docutils literal notranslate"><span class="pre">Logger.set_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.set_stream_handler"><code class="docutils literal notranslate"><span class="pre">Logger.set_stream_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.shellcmd"><code class="docutils literal notranslate"><span class="pre">Logger.shellcmd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.text_handler"><code class="docutils literal notranslate"><span class="pre">Logger.text_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.warning"><code class="docutils literal notranslate"><span class="pre">Logger.warning()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.logger.Logger.yellow"><code class="docutils literal notranslate"><span class="pre">Logger.yellow()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-fluxburst.plugins">fluxburst.plugins module</a><ul>
-<li><a class="reference internal" href="#fluxburst.plugins.BurstParameters"><code class="docutils literal notranslate"><span class="pre">BurstParameters</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin"><code class="docutils literal notranslate"><span class="pre">BurstPlugin</span></code></a><ul>
-<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.run"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.run()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.schedule"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.schedule()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.set_params"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.set_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.add_prefix"><code class="docutils literal notranslate"><span class="pre">add_prefix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.logger.underline"><code class="docutils literal notranslate"><span class="pre">underline()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.selectors">fluxburst.selectors module</a><ul>
-<li><a class="reference internal" href="#fluxburst.selectors.is_burstable"><code class="docutils literal notranslate"><span class="pre">is_burstable()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.sorting">fluxburst.sorting module</a><ul>
-<li><a class="reference internal" href="#fluxburst.sorting.in_order"><code class="docutils literal notranslate"><span class="pre">in_order()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.version">fluxburst.version module</a></li>
-<li><a class="reference internal" href="#module-fluxburst">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.plugins">fluxburst.plugins module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.plugins.BurstParameters"><code class="docutils literal notranslate"><span class="pre">BurstParameters</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.plugins.BurstPlugin"><code class="docutils literal notranslate"><span class="pre">BurstPlugin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.run"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.schedule"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.set_params"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.set_params()</span></code></a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.selectors">fluxburst.selectors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.selectors.is_burstable"><code class="docutils literal notranslate"><span class="pre">is_burstable()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.sorting">fluxburst.sorting module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fluxburst.sorting.in_order"><code class="docutils literal notranslate"><span class="pre">in_order()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst.version">fluxburst.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-fluxburst">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -524,7 +528,10 @@ additional metadata if needed</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Flux Burst’s Python SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fluxburst.utils.html" class="btn btn-neutral float-right" title="fluxburst.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

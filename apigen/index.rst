@@ -1,14 +1,14 @@
-Welcome to Cloud Select's documentation!
-========================================
+Welcome to Flux Burst's Python SDK
+==================================
 
-Cloud Select is a tool to select cloud resources.
+Flux Burst is a Python module to orchestrate bursting of Flux clusters.
 
 Contents:
 
 .. toctree::
    :maxdepth: 3
 
-   source/cloudselect.rst
+   source/fluxburst.rst
    changelog.md
 
 

@@ -19,6 +19,8 @@
     <script src="../assets/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../changelog.html" />
+    <link rel="prev" title="fluxburst package" href="fluxburst.html" />
 </head>
 
 <body class="wy-body-for-nav">
@@ -31,7 +33,7 @@
 
           <a href="../index.html">
 
-              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+              <img src="../assets/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -41,54 +43,32 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">fluxburst.utils package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-fluxburst.utils.fileio">fluxburst.utils.fileio module</a><ul>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.can_be_deleted"><code class="docutils literal notranslate"><span class="pre">can_be_deleted()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.copyfile"><code class="docutils literal notranslate"><span class="pre">copyfile()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.creation_date"><code class="docutils literal notranslate"><span class="pre">creation_date()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.get_file_hash"><code class="docutils literal notranslate"><span class="pre">get_file_hash()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.get_tmpdir"><code class="docutils literal notranslate"><span class="pre">get_tmpdir()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.get_tmpfile"><code class="docutils literal notranslate"><span class="pre">get_tmpfile()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.mkdir_p"><code class="docutils literal notranslate"><span class="pre">mkdir_p()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.mkdirp"><code class="docutils literal notranslate"><span class="pre">mkdirp()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.print_json"><code class="docutils literal notranslate"><span class="pre">print_json()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.read_file"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.read_yaml"><code class="docutils literal notranslate"><span class="pre">read_yaml()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.recursive_find"><code class="docutils literal notranslate"><span class="pre">recursive_find()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.remove_to_base"><code class="docutils literal notranslate"><span class="pre">remove_to_base()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.workdir"><code class="docutils literal notranslate"><span class="pre">workdir()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.write_file"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.write_json"><code class="docutils literal notranslate"><span class="pre">write_json()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.fileio.write_yaml"><code class="docutils literal notranslate"><span class="pre">write_yaml()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.utils.misc">fluxburst.utils.misc module</a><ul>
-<li><a class="reference internal" href="#fluxburst.utils.misc.choose"><code class="docutils literal notranslate"><span class="pre">choose()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.misc.chunks"><code class="docutils literal notranslate"><span class="pre">chunks()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.misc.get_hash"><code class="docutils literal notranslate"><span class="pre">get_hash()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.misc.mb_to_bytes"><code class="docutils literal notranslate"><span class="pre">mb_to_bytes()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.misc.print_bytes"><code class="docutils literal notranslate"><span class="pre">print_bytes()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.misc.slugify"><code class="docutils literal notranslate"><span class="pre">slugify()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.utils.terminal">fluxburst.utils.terminal module</a><ul>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.check_install"><code class="docutils literal notranslate"><span class="pre">check_install()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.confirm_action"><code class="docutils literal notranslate"><span class="pre">confirm_action()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.confirm_uninstall"><code class="docutils literal notranslate"><span class="pre">confirm_uninstall()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.ensure_no_extra"><code class="docutils literal notranslate"><span class="pre">ensure_no_extra()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.get_installdir"><code class="docutils literal notranslate"><span class="pre">get_installdir()</span></code></a></li>
-<li><a class="reference internal" href="#fluxburst.utils.terminal.run_command"><code class="docutils literal notranslate"><span class="pre">run_command()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-fluxburst.utils">Module contents</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="fluxburst.html">fluxburst package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="fluxburst.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">fluxburst.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-fluxburst.utils.fileio">fluxburst.utils.fileio module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-fluxburst.utils.misc">fluxburst.utils.misc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-fluxburst.utils.terminal">fluxburst.utils.terminal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-fluxburst.utils">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#fluxburst-client-module">fluxburst.client module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.defaults">fluxburst.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.logger">fluxburst.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.plugins">fluxburst.plugins module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.selectors">fluxburst.selectors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.sorting">fluxburst.sorting module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst.version">fluxburst.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.html#module-fluxburst">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -103,6 +83,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="fluxburst.html">fluxburst package</a></li>
       <li class="breadcrumb-item active">fluxburst.utils package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/source/fluxburst.utils.rst.txt" rel="nofollow"> View page source</a>
@@ -358,7 +339,10 @@ without this check.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fluxburst.html" class="btn btn-neutral float-left" title="fluxburst package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
