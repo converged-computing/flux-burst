@@ -9,6 +9,8 @@
     <img align="right" style="width: 250px; float: right; padding-left: 20px;" src="https://github.com/converged-computing/flux-burst/raw/main/docs/assets/img/logo-transparent.png" alt="Cloud Select Logo">
 </a>-->
 
+![https://raw.githubusercontent.com/converged-computing/flux-burst/main/docs/assets/img/logo.png](https://raw.githubusercontent.com/converged-computing/flux-burst/main/docs/assets/img/logo.png)
+
 This is a Python module to coordinate Flux bursting. 🧋️
 
  - ⭐️ [Documentation](https://converged-computing.github.io/flux-burst/) ⭐️
