@@ -121,10 +121,72 @@ def is_burstable(jobinfo):
     return "burstable" in jobinfo["spec"]["attributes"]["system"]
 ```
 
-Here is what the job (in json) looks like that the function has access to:
+Here is what the `jobinfo` variable looks like that the function has access to.
+This means that your function should take this as input, and return a boolean
+to indicate if it's burstable (or not). Note that this is not currently json serializable:
 
 ```python
-# TODO
+{'id': 12420793761792,
+ 'userid': 1000,
+ 'urgency': 16,
+ 'priority': 16,
+ 't_submit': 1687638917.9938345,
+ 't_depend': 1687638918.005533,
+ 'state': 8,
+ 'name': 'hostname',
+ 'ntasks': 4,
+ 'duration': 0.0,
+ 'nnodes': 4,
+ 'info': {'_t_depend': 1687638918.005533,
+  '_t_run': 0.0,
+  '_t_cleanup': 0.0,
+  '_t_inactive': 0.0,
+  '_duration': 0.0,
+  '_expiration': 0.0,
+  '_name': 'hostname',
+  '_queue': '',
+  '_ntasks': 4,
+  '_ncores': '',
+  '_nnodes': 4,
+  '_priority': 16,
+  '_ranks': '',
+  '_nodelist': '',
+  '_success': '',
+  '_waitstatus': '',
+  '_id': JobID(12420793761792),
+  '_userid': 1000,
+  '_urgency': 16,
+  '_t_submit': 1687638917.9938345,
+  '_state_id': 8,
+  '_result_id': '',
+  '_exception': {'occurred': '', 'severity': '', 'type': '', 'note': ''},
+  '_annotations': {'annotationsDict': {}, 'atuple': X()},
+  '_sched': ,
+  '_user': ,
+  '_dependencies': []},
+ 'spec': {'resources': [{'type': 'node',
+    'count': 4,
+    'exclusive': True,
+    'with': [{'type': 'slot',
+      'count': 1,
+      'with': [{'type': 'core', 'count': 1}],
+      'label': 'task'}]}],
+  'tasks': [{'command': ['hostname'],
+    'slot': 'task',
+    'count': {'per_slot': 1}}],
+  'attributes': {'system': {'duration': 0,
+    'cwd': '/tmp/workflow/gke',
+    'shell': {'options': {'rlimit': {'cpu': -1,
+       'fsize': -1,
+       'data': -1,
+       'stack': 8388608,
+       'core': 0,
+       'nofile': 1048576,
+       'as': -1,
+       'rss': -1,
+       'nproc': -1}}},
+    'burstable': 1}},
+  'version': 1}}
 ```
 
 For now, we just allow one selection function - the idea being if you want to combine
@@ -201,7 +263,7 @@ for implementing plugins, this one was chose for its simplicity. Our setup suppo
 
 Each plugin is expected to have, at the top level of the module (e.g., `fluxburst_<name>.<func>`), the following functions or attributes for flux-burst:
 
-**TODO**
+ - *init* a basic function that does checks / imports the main plugin class, and returns it instantiated with the dataclass as the only argument.
 
 More detail on the above is provided below.
 
@@ -238,9 +300,19 @@ This tool is under development and is not ready for production use.
 Desired plugins are:
 
  - [local mock](https://github.com/flux-framework/flux-sched/issues/1009#issuecomment-1603636498)
- - [Google Cloud](https://github.com/flux-framework/flux-operator/pull/183/files)
+ - [Google Cloud](https://github.com/converged-computing/flux-burst-gke)
  - AWS (not written yet)
 
+
+## Questions
+
+- How should the plugins manage checking when to create / destroy clusters?
+- Can we have a better strategy for namespacing different bursts (e.g., beyond burst-0, burst-1, ..., burst-N)
+- We need a reasonable default for what a plugin should do if something fails (e.g., setup/config)
+- How should each plugin decide what size cluster to make? Right now I'm just taking the max size of the job, and we are assuming the jobs need the same node type.
+- We will eventually want to use namespaces in a meaningful way (e.g., users)
+- We will eventually want a specific burst for a job to be able to customize in more detail, e.g., the namespace or other attribute that comes from a jobspec (right now they are global to the plugin)
+- Who controls cleanup? It can be done by the flux-burst global controller or a plugin, automated or manual, either way.
 
 ## 😁️ Contributors 😁️
 

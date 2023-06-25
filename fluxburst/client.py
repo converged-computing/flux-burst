@@ -20,7 +20,7 @@ class FluxBurst:
     Flux Burst Client
     """
 
-    def __init__(self, handle):
+    def __init__(self, handle=None):
         """
         Create a new burst client.
 
@@ -33,27 +33,30 @@ class FluxBurst:
         self.reset_selector()
         self.reset_plugins()
         self.handle = handle or flux.Flux()
+        self.set_ordering(sorting.in_order)
 
     @property
     def choices(self):
         return "|".join(list(self.plugins))
 
-    def load(self, name, **kwargs):
+    def load(self, name, dataclass, **kwargs):
         """
         Register a bursting plugin manually.
 
         We assume a setup does not always want all plugins available.
+        The dataclass argument should be for the BurstParameters
+        specific to the plugin.
         """
         if name not in burstable_plugins:
             raise ValueError(f"Plugin {name} is not known. Choices are {self.choices}")
 
         # Validate the plugin, first plugin module then loaded class
         self.validate_module(name)
-        plugin = burstable_plugins[name].init(**kwargs)
+        plugin = burstable_plugins[name].init(dataclass)
 
         # We set the name attribute so it's always matched to the module
         plugin.name = name
-        self.validate_plugin(name)
+        self.validate_plugin(plugin)
         self.plugins[name] = plugin
 
     def validate_module(self, name):
@@ -119,7 +122,7 @@ class FluxBurst:
         if not self._iter_func:
             self._iter_func = sorting.in_order
 
-        for name, plugin in self._iter_func:
+        for name, plugin in self._iter_func(self.plugins):
             yield name, plugin
 
     def process_queue(self):
@@ -131,56 +134,71 @@ class FluxBurst:
         more fine-tuned logic for directing jobs to plugins.
         """
         # Run filters across queue to select jobs
+        # This is a dict, keys with job id, values jobinfo
         jobs = self.select_jobs()
 
         # Going through plugins, determine if matches and can run
         unmatched = []
-        for job in jobs:
+        for _, job in jobs.items():
+            scheduled = False
             for _, plugin in self.iter_plugins():
                 # Give to first burstable plugin that can accept
                 if plugin.schedule(job):
                     # Remove the burstable attribute so it isn't assigned to another
-                    # There should be some fallback that if the job is still in the queue
-                    # after X time, we consider it again. Or some better way!
-                    print("TODO remove burstable attribute if we get here")
-                    import IPython
-
-                    IPython.embed()
-                    continue
+                    # This is more for development - we could likely use a better way
+                    self.mark_as_scheduled(job, plugin.name)
+                    scheduled = True
 
             # But if we cannot match, return to caller
-            unmatched.append(job)
+            if not scheduled:
+                unmatched.append(job)
 
         if unmatched:
             logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
         return unmatched
 
+    def mark_as_scheduled(self, job, plugin_name):
+        """
+        Mark a job as scheduled.
+
+        For now, we just remove the burstable attribute to indicate
+        that it's been scheduled. We also add the plugin it was scheduled
+        with, in case we somehow need to regenerate/remember a burst.
+        """
+        # Add an attribute that says "this job is assigned to burstable plugin X"
+        job["spec"]["attributes"]["system"]["burst-scheduled"] = plugin_name
+
+        # The job is no longer marked as burstable for other plugins
+        if "burstable" in job["spec"]["attributes"]["system"]:
+            del job["spec"]["attributes"]["system"]["burstable"]
+
+        # Update the KVS (is this possible)?
+        # This doesn't currently work, so not doing anything :)
+        kvs = flux.job.job_kvs(self.handle, job["id"])
+        kvs["jobspec"] = job["spec"]
+        kvs.commit()
+
     def select_jobs(self):
         """
         Use filters to select jobs.
-        """
-        # Keep track of selected burstable jobs
-        listing = flux.job.job_list(self.handle).get()
-        selected = []
-        print("TODO ensure that unique")
-        import IPython
 
-        IPython.embed()
+        This step is agnostic to the burstable plugins - it is simply
+        deducing (via our selector function) what jobs are contenders
+        for bursting. See the README / documentation for example info.
+        """
+        # Keep track of selected burstable jobs by id
+        listing = flux.job.job_list(self.handle).get()
+        selected = {}
+
         for job in listing.get("jobs", []):
             info = self.get_job_info(job["id"])
             if not self._job_selector(info):
                 continue
             print(f"🧋️  Job {job['id']} is marked for bursting.")
-            selected.append(info)
+            selected[job["id"]] = info
 
-        # Reduce to unique set (could also do as we go)
-        print("REDUCE")
-        import IPython
-
-        IPython.embed()
-
-        if not selected:
-            logger.exit("No jobs were found marked for burstable.")
+        # We don't give a warning here, because likely there aren't
+        # jobs that are burstable (it's a more rare event)
         return selected
 
     def __repr__(self):
