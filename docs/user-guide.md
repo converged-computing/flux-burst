@@ -17,7 +17,7 @@ $ pip install flux-burst-gke
 Or the repository here:
 
 ```bash
-$ git clone https://github.com/converged-computing/flux-burst 
+$ git clone https://github.com/converged-computing/flux-burst
 $ cd flux-burst
 $ pip install .
 ```
@@ -61,7 +61,7 @@ client.load("gke", dc)
 ```
 
 For the above, we might have installed the `fluxburst_gke` plugin, and then "dc"
-might include Google Cloud specific arguments for it. The "dc" is a custom dataclass 
+might include Google Cloud specific arguments for it. The "dc" is a custom dataclass
 that holds the plugin parameters, and we might have instantiated it like this:
 
 ```python
@@ -91,7 +91,7 @@ Every broker will be a little different in terms of the requirements, and
 this approach allows flexibility for that.
 
 Since every plugin might vary in the specific parameters or arguments it has or requires,
-we scope this to a [dataclass](https://www.dataquest.io/blog/how-to-use-python-data-classes/), 
+we scope this to a [dataclass](https://www.dataquest.io/blog/how-to-use-python-data-classes/),
 where it is possible to control the arguments required and defaults.
 
 ### Running Bursting
@@ -146,7 +146,7 @@ def is_burstable(jobinfo):
 
 Here is what the `jobinfo` variable looks like that the function has access to.
 This is a standard output of Flux info in Python, but we add the spec from the KVS store
-to expose attributes and more metadata. 
+to expose attributes and more metadata.
 
 <details>
 
@@ -220,7 +220,7 @@ to expose attributes and more metadata.
 
 This means that your function should take this as input, and return a boolean
 to indicate if it's burstable (or not). Note that the above is not currently json serializable.
-For now, we just allow the `FluxBurst` client to have one selection function. 
+For now, we just allow the `FluxBurst` client to have one selection function.
 If you want to combine logic, just do that in one function! If you use the default, it
 will look for this `burstable` flag.  But here is how you'd provide your custom function to the class:
 

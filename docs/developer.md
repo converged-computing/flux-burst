@@ -1,7 +1,7 @@
 # Developer Guide
 
 This is a short guide to help with development of plugins. If you are interested
-in using Flux Burst, you likely want our [User Guide](user-guide.md). 
+in using Flux Burst, you likely want our [User Guide](user-guide.md).
 We will expand it as we work on automation for testing, developer environments, etc.
 
 ## Local Development
@@ -37,7 +37,7 @@ More detail on the above is provided below.
 
 Here is an example organization for a plugin. Note that we have not included
 tests here, and mostly because we haven't figured out a common way to write per plugin,
-but you can imagine having a "tests" directory with your setup. 
+but you can imagine having a "tests" directory with your setup.
 Each file will be described in more detail.
 
 ```console
@@ -46,7 +46,7 @@ Each file will be described in more detail.
 ├── Dockerfile
 ├── docs
 ...
-├── fluxburst_gke        (- The main plugin module 
+├── fluxburst_gke        (- The main plugin module
 │   ├── cluster.py       (- Additional functions for Google Cloud and MiniClusters
 │   ├── defaults.py      (- Plugin defaults (if applicable)
 │   ├── __init__.py      (- Init file that is required to have "init"
@@ -149,7 +149,7 @@ the dataclass if a required argument is missing, which is what we want!
 ##### BurstPlugin class
 
 We provide a `fluxburst.plugins.BurstPlugin` class that you can subclass for your plugin
-that defines the required functions, and provides the structure and shared logic for all plugins. 
+that defines the required functions, and provides the structure and shared logic for all plugins.
 There are functions provided in the base class for parsing your dataclass, including:
 
  - *the init*: on init, we take the dataclass provided by the user and parse it (set_params) and create an empty `self.jobs` for the class
@@ -187,7 +187,7 @@ handle.cleanup()
 handle.cleanup("flux-bursted-cluster")
 ```
 
-Cleanup is currently not a required plugin function, but likely will be. 
+Cleanup is currently not a required plugin function, but likely will be.
 
 
 ## Documentation
