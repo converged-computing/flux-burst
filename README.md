@@ -310,8 +310,9 @@ Desired plugins are:
 - Can we have a better strategy for namespacing different bursts (e.g., beyond burst-0, burst-1, ..., burst-N)
 - We need a reasonable default for what a plugin should do if something fails (e.g., setup/config)
 - How should each plugin decide what size cluster to make? Right now I'm just taking the max size of the job, and we are assuming the jobs need the same node type.
-- munge.key is a secret - but curve cert is an attribute (string) in the CRD. Should it be a secret too? It adds complexity, but if it's the right thing to do, we should do it.
 - We will eventually want to use namespaces in a meaningful way (e.g., users)
+- We will eventually want a specific burst for a job to be able to customize in more detail, e.g., the namespace or other attribute that comes from a jobspec (right now they are global to the plugin)
+- Who controls cleanup? It can be done by the flux-burst global controller or a plugin, automated or manual, either way.
 
 ## 😁️ Contributors 😁️
 

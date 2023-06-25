@@ -140,16 +140,18 @@ class FluxBurst:
         # Going through plugins, determine if matches and can run
         unmatched = []
         for _, job in jobs.items():
+            scheduled = False
             for _, plugin in self.iter_plugins():
                 # Give to first burstable plugin that can accept
                 if plugin.schedule(job):
                     # Remove the burstable attribute so it isn't assigned to another
                     # This is more for development - we could likely use a better way
                     self.mark_as_scheduled(job, plugin.name)
-                    continue
+                    scheduled = True
 
             # But if we cannot match, return to caller
-            unmatched.append(job)
+            if not scheduled:
+                unmatched.append(job)
 
         if unmatched:
             logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
