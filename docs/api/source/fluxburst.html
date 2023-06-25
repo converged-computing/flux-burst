@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fluxburst package &mdash; Cloud Select 1 documentation</title>
+      <link rel="stylesheet" href="../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../assets/jquery.js"></script>
+        <script src="../assets/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../assets/documentation_options.js"></script>
+        <script src="../assets/doctools.js"></script>
+        <script src="../assets/sphinx_highlight.js"></script>
+    <script src="../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../assets/cloud-select-transparent.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">fluxburst package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#fluxburst-client-module">fluxburst.client module</a></li>
+<li><a class="reference internal" href="#module-fluxburst.defaults">fluxburst.defaults module</a></li>
+<li><a class="reference internal" href="#module-fluxburst.logger">fluxburst.logger module</a><ul>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler</span></code></a><ul>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLACK"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLACK</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BLUE</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.BOLD_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.BOLD_SEQ</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.COLOR_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.COLOR_SEQ</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.CYAN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.CYAN</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.GREEN</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.MAGENTA"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.MAGENTA</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RED"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RED</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.RESET_SEQ"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.RESET_SEQ</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.WHITE"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.WHITE</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.YELLOW"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.YELLOW</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.can_color_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.can_color_tty()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.colors"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.colors</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.decorate"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.decorate()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.emit"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.emit()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.ColorizingStreamHandler.is_tty"><code class="docutils literal notranslate"><span class="pre">ColorizingStreamHandler.is_tty</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors"><code class="docutils literal notranslate"><span class="pre">LogColors</span></code></a><ul>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.BOLD"><code class="docutils literal notranslate"><span class="pre">LogColors.BOLD</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.ENDC"><code class="docutils literal notranslate"><span class="pre">LogColors.ENDC</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKBLUE"><code class="docutils literal notranslate"><span class="pre">LogColors.OKBLUE</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKCYAN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKCYAN</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.OKGREEN"><code class="docutils literal notranslate"><span class="pre">LogColors.OKGREEN</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.PURPLE"><code class="docutils literal notranslate"><span class="pre">LogColors.PURPLE</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.RED"><code class="docutils literal notranslate"><span class="pre">LogColors.RED</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.UNDERLINE"><code class="docutils literal notranslate"><span class="pre">LogColors.UNDERLINE</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.LogColors.WARNING"><code class="docutils literal notranslate"><span class="pre">LogColors.WARNING</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.cleanup"><code class="docutils literal notranslate"><span class="pre">Logger.cleanup()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.debug"><code class="docutils literal notranslate"><span class="pre">Logger.debug()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.error"><code class="docutils literal notranslate"><span class="pre">Logger.error()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.exit"><code class="docutils literal notranslate"><span class="pre">Logger.exit()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.handler"><code class="docutils literal notranslate"><span class="pre">Logger.handler()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.info"><code class="docutils literal notranslate"><span class="pre">Logger.info()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.location"><code class="docutils literal notranslate"><span class="pre">Logger.location()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.progress"><code class="docutils literal notranslate"><span class="pre">Logger.progress()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.set_level"><code class="docutils literal notranslate"><span class="pre">Logger.set_level()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.set_stream_handler"><code class="docutils literal notranslate"><span class="pre">Logger.set_stream_handler()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.shellcmd"><code class="docutils literal notranslate"><span class="pre">Logger.shellcmd()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.text_handler"><code class="docutils literal notranslate"><span class="pre">Logger.text_handler()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.warning"><code class="docutils literal notranslate"><span class="pre">Logger.warning()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.Logger.yellow"><code class="docutils literal notranslate"><span class="pre">Logger.yellow()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fluxburst.logger.add_prefix"><code class="docutils literal notranslate"><span class="pre">add_prefix()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.logger.underline"><code class="docutils literal notranslate"><span class="pre">underline()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fluxburst.plugins">fluxburst.plugins module</a><ul>
+<li><a class="reference internal" href="#fluxburst.plugins.BurstParameters"><code class="docutils literal notranslate"><span class="pre">BurstParameters</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin"><code class="docutils literal notranslate"><span class="pre">BurstPlugin</span></code></a><ul>
+<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.run"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.run()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.schedule"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.schedule()</span></code></a></li>
+<li><a class="reference internal" href="#fluxburst.plugins.BurstPlugin.set_params"><code class="docutils literal notranslate"><span class="pre">BurstPlugin.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fluxburst.selectors">fluxburst.selectors module</a><ul>
+<li><a class="reference internal" href="#fluxburst.selectors.is_burstable"><code class="docutils literal notranslate"><span class="pre">is_burstable()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fluxburst.sorting">fluxburst.sorting module</a><ul>
+<li><a class="reference internal" href="#fluxburst.sorting.in_order"><code class="docutils literal notranslate"><span class="pre">in_order()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fluxburst.version">fluxburst.version module</a></li>
+<li><a class="reference internal" href="#module-fluxburst">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cloud Select</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">fluxburst package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/fluxburst.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fluxburst-package">
+<h1>fluxburst package<a class="headerlink" href="#fluxburst-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fluxburst.utils.html">fluxburst.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.utils.html#module-fluxburst.utils.fileio">fluxburst.utils.fileio module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.can_be_deleted"><code class="docutils literal notranslate"><span class="pre">can_be_deleted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.copyfile"><code class="docutils literal notranslate"><span class="pre">copyfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.creation_date"><code class="docutils literal notranslate"><span class="pre">creation_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.get_file_hash"><code class="docutils literal notranslate"><span class="pre">get_file_hash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.get_tmpdir"><code class="docutils literal notranslate"><span class="pre">get_tmpdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.get_tmpfile"><code class="docutils literal notranslate"><span class="pre">get_tmpfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.mkdir_p"><code class="docutils literal notranslate"><span class="pre">mkdir_p()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.mkdirp"><code class="docutils literal notranslate"><span class="pre">mkdirp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.print_json"><code class="docutils literal notranslate"><span class="pre">print_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.read_file"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.read_yaml"><code class="docutils literal notranslate"><span class="pre">read_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.recursive_find"><code class="docutils literal notranslate"><span class="pre">recursive_find()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.remove_to_base"><code class="docutils literal notranslate"><span class="pre">remove_to_base()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.workdir"><code class="docutils literal notranslate"><span class="pre">workdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.write_file"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.write_json"><code class="docutils literal notranslate"><span class="pre">write_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.fileio.write_yaml"><code class="docutils literal notranslate"><span class="pre">write_yaml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.utils.html#module-fluxburst.utils.misc">fluxburst.utils.misc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.choose"><code class="docutils literal notranslate"><span class="pre">choose()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.chunks"><code class="docutils literal notranslate"><span class="pre">chunks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.get_hash"><code class="docutils literal notranslate"><span class="pre">get_hash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.mb_to_bytes"><code class="docutils literal notranslate"><span class="pre">mb_to_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.print_bytes"><code class="docutils literal notranslate"><span class="pre">print_bytes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.misc.slugify"><code class="docutils literal notranslate"><span class="pre">slugify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.utils.html#module-fluxburst.utils.terminal">fluxburst.utils.terminal module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.check_install"><code class="docutils literal notranslate"><span class="pre">check_install()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.confirm_action"><code class="docutils literal notranslate"><span class="pre">confirm_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.confirm_uninstall"><code class="docutils literal notranslate"><span class="pre">confirm_uninstall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.ensure_no_extra"><code class="docutils literal notranslate"><span class="pre">ensure_no_extra()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.get_installdir"><code class="docutils literal notranslate"><span class="pre">get_installdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fluxburst.utils.html#fluxburst.utils.terminal.run_command"><code class="docutils literal notranslate"><span class="pre">run_command()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fluxburst.utils.html#module-fluxburst.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="fluxburst-client-module">
+<h2>fluxburst.client module<a class="headerlink" href="#fluxburst-client-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-fluxburst.defaults">
+<span id="fluxburst-defaults-module"></span><h2>fluxburst.defaults module<a class="headerlink" href="#module-fluxburst.defaults" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-fluxburst.logger">
+<span id="fluxburst-logger-module"></span><h2>fluxburst.logger module<a class="headerlink" href="#module-fluxburst.logger" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">ColorizingStreamHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nocolor=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream=&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stderr&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='utf-8'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_threads=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#ColorizingStreamHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamHandler</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.BLACK">
+<span class="sig-name descname"><span class="pre">BLACK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.BLACK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.BLUE">
+<span class="sig-name descname"><span class="pre">BLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.BLUE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.BOLD_SEQ">
+<span class="sig-name descname"><span class="pre">BOLD_SEQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[1m'</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.BOLD_SEQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.COLOR_SEQ">
+<span class="sig-name descname"><span class="pre">COLOR_SEQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[%dm'</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.COLOR_SEQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.CYAN">
+<span class="sig-name descname"><span class="pre">CYAN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.CYAN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.GREEN">
+<span class="sig-name descname"><span class="pre">GREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.GREEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.MAGENTA">
+<span class="sig-name descname"><span class="pre">MAGENTA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.MAGENTA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.RED">
+<span class="sig-name descname"><span class="pre">RED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.RED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.RESET_SEQ">
+<span class="sig-name descname"><span class="pre">RESET_SEQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.RESET_SEQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.WHITE">
+<span class="sig-name descname"><span class="pre">WHITE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.WHITE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.YELLOW">
+<span class="sig-name descname"><span class="pre">YELLOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.YELLOW" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.can_color_tty">
+<span class="sig-name descname"><span class="pre">can_color_tty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#ColorizingStreamHandler.can_color_tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.can_color_tty" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.colors">
+<span class="sig-name descname"><span class="pre">colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'CRITICAL':</span> <span class="pre">1,</span> <span class="pre">'DEBUG':</span> <span class="pre">4,</span> <span class="pre">'ERROR':</span> <span class="pre">1,</span> <span class="pre">'INFO':</span> <span class="pre">2,</span> <span class="pre">'WARNING':</span> <span class="pre">3}</span></em><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.colors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.decorate">
+<span class="sig-name descname"><span class="pre">decorate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#ColorizingStreamHandler.decorate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.decorate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.emit">
+<span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#ColorizingStreamHandler.emit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.emit" title="Permalink to this definition"></a></dt>
+<dd><p>Emit a record.</p>
+<p>If a formatter is specified, it is used to format the record.
+The record is then written to the stream with a trailing newline.  If
+exception information is present, it is formatted using
+traceback.print_exception and appended to the stream.  If the stream
+has an ‘encoding’ attribute, it is used to determine how to do the
+output to the stream.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fluxburst.logger.ColorizingStreamHandler.is_tty">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_tty</span></span><a class="headerlink" href="#fluxburst.logger.ColorizingStreamHandler.is_tty" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">LogColors</span></span><a class="reference internal" href="../modules/fluxburst/logger.html#LogColors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.LogColors" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.BOLD">
+<span class="sig-name descname"><span class="pre">BOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[1m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.BOLD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.ENDC">
+<span class="sig-name descname"><span class="pre">ENDC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.ENDC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.OKBLUE">
+<span class="sig-name descname"><span class="pre">OKBLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[94m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.OKBLUE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.OKCYAN">
+<span class="sig-name descname"><span class="pre">OKCYAN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[96m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.OKCYAN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.OKGREEN">
+<span class="sig-name descname"><span class="pre">OKGREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[92m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.OKGREEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.PURPLE">
+<span class="sig-name descname"><span class="pre">PURPLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[95m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.PURPLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.RED">
+<span class="sig-name descname"><span class="pre">RED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[91m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.RED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.UNDERLINE">
+<span class="sig-name descname"><span class="pre">UNDERLINE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[4m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.UNDERLINE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fluxburst.logger.LogColors.WARNING">
+<span class="sig-name descname"><span class="pre">WARNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[93m'</span></em><a class="headerlink" href="#fluxburst.logger.LogColors.WARNING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">Logger</span></span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.cleanup">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.cleanup" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.debug">
+<span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.debug"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.debug" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.error">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.error" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.exit">
+<span class="sig-name descname"><span class="pre">exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.exit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.handler">
+<span class="sig-name descname"><span class="pre">handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.handler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.location">
+<span class="sig-name descname"><span class="pre">location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.progress">
+<span class="sig-name descname"><span class="pre">progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">done</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.progress" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.set_level">
+<span class="sig-name descname"><span class="pre">set_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.set_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.set_level" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.set_stream_handler">
+<span class="sig-name descname"><span class="pre">set_stream_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream_handler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.set_stream_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.set_stream_handler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.shellcmd">
+<span class="sig-name descname"><span class="pre">shellcmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.shellcmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.shellcmd" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.text_handler">
+<span class="sig-name descname"><span class="pre">text_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.text_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.text_handler" title="Permalink to this definition"></a></dt>
+<dd><p>The default log handler prints the output to the console.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.warning">
+<span class="sig-name descname"><span class="pre">warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.warning" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.logger.Logger.yellow">
+<span class="sig-name descname"><span class="pre">yellow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#Logger.yellow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.Logger.yellow" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fluxburst.logger.add_prefix">
+<span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">add_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&gt;&gt;'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#add_prefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.add_prefix" title="Permalink to this definition"></a></dt>
+<dd><p>Add an “OKBLUE” prefix to a message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fluxburst.logger.setup_logger">
+<span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">setup_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printshellcmds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nocolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wms_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#setup_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.setup_logger" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fluxburst.logger.underline">
+<span class="sig-prename descclassname"><span class="pre">fluxburst.logger.</span></span><span class="sig-name descname"><span class="pre">underline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/logger.html#underline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.logger.underline" title="Permalink to this definition"></a></dt>
+<dd><p>Return an underlined message</p>
+</dd></dl>
+
+</section>
+<section id="module-fluxburst.plugins">
+<span id="fluxburst-plugins-module"></span><h2>fluxburst.plugins module<a class="headerlink" href="#module-fluxburst.plugins" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fluxburst.plugins.BurstParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fluxburst.plugins.</span></span><span class="sig-name descname"><span class="pre">BurstParameters</span></span><a class="reference internal" href="../modules/fluxburst/plugins.html#BurstParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.plugins.BurstParameters" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fluxburst.plugins.BurstPlugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fluxburst.plugins.</span></span><span class="sig-name descname"><span class="pre">BurstPlugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataclass</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/plugins.html#BurstPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.plugins.BurstPlugin" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The base class for a burst plugin defines needed functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.plugins.BurstPlugin.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/plugins.html#BurstPlugin.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.plugins.BurstPlugin.run" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to run a plugin with the set of burstable jobs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.plugins.BurstPlugin.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/plugins.html#BurstPlugin.schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.plugins.BurstPlugin.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Attempt to schedule a job, if possible.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fluxburst.plugins.BurstPlugin.set_params">
+<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/plugins.html#BurstPlugin.set_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.plugins.BurstPlugin.set_params" title="Permalink to this definition"></a></dt>
+<dd><p>Given known parameters, assert we have the correct dataclass
+and update from the environment, etc.</p>
+<p>The dc (dataclass) is used by the plugin as a generic strategy
+to select and move around custom arguments, if needed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fluxburst.selectors">
+<span id="fluxburst-selectors-module"></span><h2>fluxburst.selectors module<a class="headerlink" href="#module-fluxburst.selectors" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="fluxburst.selectors.is_burstable">
+<span class="sig-prename descclassname"><span class="pre">fluxburst.selectors.</span></span><span class="sig-name descname"><span class="pre">is_burstable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobinfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/selectors.html#is_burstable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.selectors.is_burstable" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if a job is burstable if:</p>
+<ol class="arabic simple">
+<li><p>It is flagged as burstable</p></li>
+</ol>
+</dd></dl>
+
+</section>
+<section id="module-fluxburst.sorting">
+<span id="fluxburst-sorting-module"></span><h2>fluxburst.sorting module<a class="headerlink" href="#module-fluxburst.sorting" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="fluxburst.sorting.in_order">
+<span class="sig-prename descclassname"><span class="pre">fluxburst.sorting.</span></span><span class="sig-name descname"><span class="pre">in_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/fluxburst/sorting.html#in_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fluxburst.sorting.in_order" title="Permalink to this definition"></a></dt>
+<dd><p>Plugins is expected to be an ordered dict, return in order</p>
+<p>This is designed intending to be flexible. We can add
+additional metadata if needed</p>
+</dd></dl>
+
+</section>
+<section id="module-fluxburst.version">
+<span id="fluxburst-version-module"></span><h2>fluxburst.version module<a class="headerlink" href="#module-fluxburst.version" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-fluxburst">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fluxburst" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

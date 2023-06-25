@@ -1,0 +1,30 @@
+cloud\_select.main.cloud package
+================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   cloudselect.main.cloud.aws
+   cloudselect.main.cloud.google
+
+Submodules
+----------
+
+cloud\_select.main.cloud.base module
+------------------------------------
+
+.. automodule:: cloudselect.main.cloud.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: cloudselect.main.cloud
+   :members:
+   :undoc-members:
+   :show-inheritance:
