@@ -151,6 +151,7 @@ class FluxBurst:
                     # This is more for development - we could likely use a better way
                     self.mark_as_scheduled(job, plugin.name)
                     scheduled = True
+                    break
 
             # But if we cannot match, return to caller
             if not scheduled:
