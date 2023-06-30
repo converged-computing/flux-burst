@@ -133,9 +133,6 @@ class FluxBurst:
         resulting filtered jobs off to burstable plugins. There could be
         more fine-tuned logic for directing jobs to plugins.
         """
-        print('PROCESS QUEUE')
-        import IPython
-        IPython.embed()
         # Run filters across queue to select jobs
         # This is a dict, keys with job id, values jobinfo
         jobs = self.select_jobs()
