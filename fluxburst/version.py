@@ -24,9 +24,14 @@ INSTALL_REQUIRES = (
     ("pick", {"min_version": None}),
 )
 
+INSTALL_REQUIRES_KUBERNETES = (
+    ("kubernetes", {"min_version": None}),
+    ("fluxoperator", {"min_version": None}),
+)
+
 TESTS_REQUIRES = (("pytest", {"min_version": "4.6.2"}),)
 
 ################################################################################
 # Submodule Requirements (versions that include database)
 
-INSTALL_REQUIRES_ALL = INSTALL_REQUIRES + TESTS_REQUIRES
+INSTALL_REQUIRES_ALL = INSTALL_REQUIRES + INSTALL_REQUIRES_KUBERNETES + TESTS_REQUIRES
