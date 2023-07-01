@@ -12,7 +12,7 @@ from kubernetes import client as kubernetes_client
 from kubernetes import utils as k8sutils
 from kubernetes.client.rest import ApiException
 
-import fluxburst.kubernetes.clusters as helpers
+import fluxburst.kubernetes.cluster as helpers
 from fluxburst.logger import logger
 from fluxburst.plugins import BurstPlugin
 
