@@ -6,10 +6,10 @@
 import base64
 import os
 
-import fluxburst_eks.defaults as defaults
 import requests
 from kubernetes import client as kubernetes_client
 
+import fluxburst.defaults as defaults
 import fluxburst.utils as utils
 
 

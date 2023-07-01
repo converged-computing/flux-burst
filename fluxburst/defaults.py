@@ -11,6 +11,9 @@ import fluxburst.utils as utils
 install_dir = utils.get_installdir()
 reps = {"$install_dir": install_dir, "$root_dir": os.path.dirname(install_dir)}
 
+# Default flux operator yaml for kubernetes
+flux_operator_yaml = "https://raw.githubusercontent.com/flux-framework/flux-operator/main/examples/dist/flux-operator.yaml"
+
 # Default plugin prefix
 plugin_prefix = "fluxburst_"
 
