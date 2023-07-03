@@ -36,6 +36,8 @@ Current and desired plugins are:
 - Who controls cleanup? It can be done by the flux-burst global controller or a plugin, automated or manual, either way.
 - All plugins should have support to read in YAML parameters (some spec for bursting)
 - All plugins should be able to match a resource request to, for example, instance types.
+- Should the plugin "local queue" (self.jobs) assume to be associated with one burst, where the size is the max job size?
+- Should we derive names based on provided name + size so clusters are unique by name and size?
 
 ## 😁️ Contributors 😁️
 

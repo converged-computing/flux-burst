@@ -36,8 +36,9 @@ class BurstPlugin:
     def __init__(self, dataclass, **kwargs):
         self.set_params(dataclass)
 
-        # Set of jobs assigned to be bursted
+        # Set of jobs assigned to be bursted, and bursted clusters
         self.jobs = {}
+        self.clusters = {}
 
     def schedule(self, job):
         """
@@ -50,6 +51,19 @@ class BurstPlugin:
         Main function to run a plugin with the set of burstable jobs.
         """
         raise NotImplementedError
+
+    def cleanup(self, name=None):
+        pass
+
+    def refresh_clusters(self, clusters):
+        """
+        Update known clusters from a list of those removed.
+        """
+        updated = {}
+        for name in self.clusters:
+            if name not in clusters:
+                updated[name] = self.clusters[name]
+        self.clusters = updated
 
     def set_params(self, dc):
         """
