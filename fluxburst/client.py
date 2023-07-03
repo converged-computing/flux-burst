@@ -18,7 +18,7 @@ class FluxBurst:
     Flux Burst Client
     """
 
-    def __init__(self, handle=None, mock=False):
+    def __init__(self, handle=None, mock=False, validate=True):
         """
         Create a new burst client.
 
@@ -26,12 +26,15 @@ class FluxBurst:
         Plugins: take jobs that need bursting, and burst some subset.
         A filter can (on the simplest terms) just look for a job flagged as
         burstable. For more complex cases, it can perform it's own logic and
-        flag some subset as burstable instead.
+        flag some subset as burstable instead. Validation is always done for
+        the top level module, howevert the validate boolean here determines
+        if the plugin should run its own validation function.
         """
         self.reset_selector()
         self.reset_plugins()
         self.flux = handles.FluxMock(handle) if mock else handles.FluxHandle(handle)
         self.set_ordering(sorting.in_order)
+        self.validate = validate
 
     @property
     def choices(self):
@@ -54,7 +57,13 @@ class FluxBurst:
 
         # We set the name attribute so it's always matched to the module
         plugin.name = name
-        self.validate_plugin(plugin)
+        self.check_plugin_integrity(plugin)
+
+        # If the plugin does it's own validation, do here
+        if not self.validate_plugin(plugin):
+            logger.warning(f"Plugin {name} did not validate and cannot be added.")
+            return
+
         self.plugins[name] = plugin
 
     def validate_module(self, name):
@@ -69,6 +78,15 @@ class FluxBurst:
             )
 
     def validate_plugin(self, plugin):
+        """
+        Validate a plugin, and if valid, load into module.
+        """
+        # This should return a boolean for valid or not
+        if hasattr(plugin, "validate") and self.validate:
+            return plugin.validate()
+        return True
+
+    def check_plugin_integrity(self, plugin):
         """
         Validate a plugin, and if valid, load into module.
         """

@@ -48,6 +48,8 @@ def get_minicluster(
     image = image or "ghcr.io/flux-framework/flux-restful-api"
     container = {"image": image, "command": command, "resources": {}}
 
+    # Are we bursting?
+    doing_burst = lead_port and lead_size and lead_jobname
     if cpu_limit is None and memory_limit is None:
         del container["resources"]
     elif cpu_limit is not None or memory_limit is not None:
@@ -74,32 +76,35 @@ def get_minicluster(
             "option_flags": flags,
             "connect_timeout": "5s",
             "log_level": log_level,
-            # Providing the lead broker and port points back to the parent
-            "bursting": {
-                "lead_broker": {
-                    "address": lead_host,
-                    "port": int(lead_port),
-                    "name": lead_jobname,
-                    "size": int(lead_size),
-                },
-                "clusters": [{"size": size, "name": name}],
-            },
         },
     }
+
+    # Are we bursting?
+    # Providing the lead broker and port points back to the parent
+    if doing_burst:
+        mc["flux"]["bursting"] = {
+            "lead_broker": {
+                "address": lead_host,
+                "port": int(lead_port),
+                "name": lead_jobname,
+                "size": int(lead_size),
+            },
+            "clusters": [{"size": size, "name": name}],
+        }
 
     if tasks is not None:
         mc["tasks"] = tasks
 
     # This is text directly in config
-    if curve_cert:
+    if doing_burst and curve_cert:
         mc["flux"]["curve_cert"] = curve_cert
 
     # A provided secret will take precedence
-    if curve_cert_secret_name:
+    if doing_burst and curve_cert_secret_name:
         mc["flux"]["curve_cert_secret"] = curve_cert_secret_name
 
     # This is just the secret name
-    if munge_secret_name:
+    if doing_burst and munge_secret_name:
         mc["flux"]["munge_secret"] = munge_secret_name
     if broker_toml:
         mc["flux"]["broker_config"] = broker_toml
@@ -129,7 +134,7 @@ def ensure_flux_operator_yaml(flux_operator_yaml):
     if not flux_operator_yaml:
         flux_operator_yaml = utils.get_tmpfile(prefix="flux-operator") + ".yaml"
         r = requests.get(defaults.flux_operator_yaml, allow_redirects=True)
-        utils.write_file(r.content, flux_operator_yaml)
+        utils.write_file(r.text, flux_operator_yaml)
 
     # Ensure it really really exists
     flux_operator_yaml = os.path.abspath(flux_operator_yaml)

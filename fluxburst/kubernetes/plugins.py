@@ -22,10 +22,6 @@ class KubernetesBurstPlugin(BurstPlugin):
     An additional wrapper to the plugin that adds support for the Flux Operator
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.clusters = {}
-
     def ensure_namespace(self, kubectl):
         """
         Use the instantiated kubectl to ensure the cluster namespace exists.
@@ -40,6 +36,38 @@ class KubernetesBurstPlugin(BurstPlugin):
             logger.warning(
                 f"🥵️ Issue creating namespace {self.params.namespace}, assuming already exists."
             )
+
+    def validate(self):
+        """
+        Validate ensures that required conditions are met.
+
+        This should return True/False to indicate if the plugin is valid or not.
+        """
+        # If we aren't doing an isolated burst, we require host names, configs, etc.
+        if not self.params.isolated_burst:
+            # Lead host and port are required. A custom broker.toml can be provided,
+            # but we are having the operator create it for us
+            if (
+                not self.params.lead_port
+                or not self.params.lead_host
+                or not self.params.lead_size
+            ):
+                logger.warning(
+                    "Parameteres lead_host, lead_size, and lead_port must be defined when not doing an isolated_burst."
+                )
+                return False
+
+            print(
+                f"Broker lead will be accessible on {self.params.lead_host}:{self.params.lead_port}"
+            )
+
+            # We also need to have the munge key and curve cert
+            if self.params.munge_key and not os.path.exists(self.params.munge_key):
+                logger.warning(
+                    f"Provided munge key {self.params.munge_key} does not exist."
+                )
+                return False
+        return True
 
     def check_configs(self):
         """
@@ -77,8 +105,10 @@ class KubernetesBurstPlugin(BurstPlugin):
         foyaml = helpers.ensure_flux_operator_yaml(self.params.flux_operator_yaml)
 
         # lead host / port / size / are required in the dataclass
+        # But ONLY if this isnt' an isolated burst!
         # We check munge paths here, because could be permissions issue
-        self.check_configs()
+        if not self.params.isolated_burst:
+            self.check_configs()
 
         cli = self.create_cluster()
         kubectl = cli.get_k8s_client()
@@ -130,7 +160,9 @@ class KubernetesBurstPlugin(BurstPlugin):
         # Let's assume there could be bugs applying this differently
         crd_api = kubernetes_client.CustomObjectsApi(kubectl.api_client)
 
-        self.ensure_secrets(kubectl)
+        # These are not needed if we are doing an isolated burst
+        if not self.params.isolated_burst:
+            self.ensure_secrets(kubectl)
 
         # Create the MiniCluster! This also waits for it to be ready
         print(
