@@ -109,21 +109,37 @@ class FluxBurst:
     def reset_selector(self):
         self._job_selector = selectors.is_burstable
 
-    def run_burst(self):
+    def run_burst(self, request_burst=False, nodes=None, tasks=None):
         """
         A full run burst includes:
 
         1. Selecting jobs using the client filter(s)
         2. In the order of plugins desired, schedule jobs
         3. Return back lookup of scheduled (by plugin)
+
+        If request_burst with nodes and tasks are required, each plugin
+        will simply request creation for the size/tasks needed.
         """
         # TODO what to do with unmatched jobs?
         unmatched = self.process_queue()
 
         # When we get here, run the bursts
         for _, plugin in self.iter_plugins():
-            plugin.run()
+            plugin.run(request_burst=request_burst, nodes=nodes, tasks=tasks)
         return unmatched
+
+    def request_burst(self, name, nodes, tasks):
+        """
+        Request burst is a direct handle to get a plugin and request a burst.
+
+        In this case, we do not create MiniClusters to launch jobs to, but instead
+        create a connected cluster anticipating receiving jobs.
+        """
+        plugin = self.plugins.get(name)
+        if not plugin:
+            logger.warning(f"Plugin {plugin} is not known.")
+            return
+        return plugin.run(request_burst=True, nodes=nodes, tasks=tasks)
 
     def set_ordering(self, func):
         """

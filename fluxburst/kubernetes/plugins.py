@@ -92,13 +92,22 @@ class KubernetesBurstPlugin(BurstPlugin):
                 f"Issue installing the operator: {exc}, assuming already exists"
             )
 
-    def run(self):
+    def run(self, request_burst=False, nodes=None, tasks=None):
         """
         Given some set of scheduled jobs, run bursting.
+
+        If request_burst is True, a specific number of tasks and size
+        must be provided to request a cluster in advance (that jobs can
+        be run on).
         """
         # Exit early if no jobs to burst
         if not self.jobs:
             logger.info(f"Plugin {self.name} has no jobs to burst.")
+            return
+
+        # If we have requested a burst, tasks and size are required
+        if request_burst and (not tasks or not nodes):
+            logger.warning("Burst requests require nodes and tasks.")
             return
 
         # Ensure we have a flux operator yaml file, fosho, foyaml!
@@ -110,22 +119,33 @@ class KubernetesBurstPlugin(BurstPlugin):
         if not self.params.isolated_burst:
             self.check_configs()
 
+        # This call registers the name of the cluster to self.clusters
         cli = self.create_cluster()
         kubectl = cli.get_k8s_client()
 
         # Install the operator!
         self.install_flux_operator(kubectl, foyaml)
 
+        # Are we requesting or running jobs?
+        if request_burst:
+            self.create_minicluster(kubectl, "sleep infinity", nodes, tasks)
+        else:
+            self.run_jobs(kubectl)
+
+    def run_jobs(self, kubectl):
+        """
+        Run jobs (creating MiniClusters), assuming that the burst has been done.
+        """
         # Create a MiniCluster for each job
         for _, job in self.jobs.items():
-            self.create_minicluster(kubectl, job)
+            command = " ".join(job["spec"]["tasks"][0]["command"])
+            self.create_minicluster(kubectl, command, job["nnodes"], job["ntasks"])
 
-    def create_minicluster(self, kubectl, job):
+    def create_minicluster(self, kubectl, command, nodes, tasks):
         """
         Create the MiniCluster
         """
-        command = " ".join(job["spec"]["tasks"][0]["command"])
-        logger.info(f"Preparing MiniCluster for {job['id']}: {command}")
+        logger.info(f"Preparing MiniCluster for {command}")
 
         # The plugin is assumed to be running from the lead broker
         # of the cluster it is bursting from, this we get info about it
@@ -141,8 +161,8 @@ class KubernetesBurstPlugin(BurstPlugin):
             cpu_limit=self.params.cpu_limit,
             namespace=self.params.namespace,
             broker_toml=self.params.broker_toml,
-            tasks=job["ntasks"],
-            size=job["nnodes"],
+            tasks=tasks,
+            size=nodes,
             image=self.params.image,
             wrap=self.params.wrap,
             log_level=self.params.log_level,
