@@ -191,7 +191,11 @@ class KubernetesBurstPlugin(BurstPlugin):
 
         # Make sure we provide the core_v1_api we've created
         operator = FluxMiniCluster(core_v1_api=kubectl)
-        return operator.create(**minicluster, container=container, crd_api=crd_api)
+        try:
+            return operator.create(**minicluster, container=container, crd_api=crd_api)
+        except Exception as e:
+            print(f"Issue creating cluster, does it already exist?: {e}")
+            return True
 
     def ensure_secrets(self, kubectl):
         """
