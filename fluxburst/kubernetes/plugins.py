@@ -101,7 +101,7 @@ class KubernetesBurstPlugin(BurstPlugin):
         be run on).
         """
         # Exit early if no jobs to burst
-        if not self.jobs:
+        if not self.jobs and not request_burst:
             logger.info(f"Plugin {self.name} has no jobs to burst.")
             return
 

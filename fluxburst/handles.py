@@ -187,10 +187,10 @@ class FluxHandle:
         """
         import flux.job
 
-        # Update the KVS (is this possible)?
-        # This doesn't currently work, so not doing anything :)
+        # This is a workaround because updating the attribute directly
+        # does not stick yet.
         kvs = flux.job.job_kvs(self.handle, job["id"])
-        kvs["jobspec"] = job["spec"]
+        kvs[kvs.key_at("jobspec")] = job["spec"]
         kvs.commit()
         return kvs
 
