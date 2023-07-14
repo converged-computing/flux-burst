@@ -177,9 +177,21 @@ class FluxMock:
 
 class FluxHandle:
     def __init__(self, handle=None):
+        self._handle = handle
+
+    @property
+    def handle(self):
+        """
+        A handle propery to "handle" connection! har har.
+
+        We import Flux here to allow instantiating the client possibly
+        after the instance is created.
+        """
         import flux
 
-        self.handle = handle or flux.Flux()
+        if not self._handle:
+            self._handle = flux.Flux()
+        return self._handle
 
     def update_jobspec(self, job):
         """
