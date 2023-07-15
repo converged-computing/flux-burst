@@ -18,7 +18,7 @@ from .fileio import (
     write_json,
     write_yaml,
 )
-from .misc import choose, chunks, get_hash, mb_to_bytes, print_bytes, slugify
+from .misc import chunks, get_hash, mb_to_bytes, print_bytes, slugify
 from .terminal import (
     check_install,
     confirm_action,
