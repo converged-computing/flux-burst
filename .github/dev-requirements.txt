@@ -1,5 +1,5 @@
 pre-commit
-black=23.3.0
+black==23.3.0
 isort
 flake8
 pytest
