@@ -21,9 +21,10 @@ This is a Python module to coordinate Flux bursting. 🧋️
 
 Current and desired plugins are:
 
- - [local mock](https://github.com/flux-framework/flux-sched/issues/1009#issuecomment-1603636498)
- - [Google Cloud](https://github.com/converged-computing/flux-burst-gke)
- - AWS (not written yet)
+ - [flux-burst-local](https://github.com/converged-computing/flux-burst-local) to "burst" on a local HPC system
+ - [flux-burst-gke](https://github.com/converged-computing/flux-burst-gke) to burst to Google Kubernetes Engine
+ - [flux-burst-eks](https://github.com/converged-computing/flux-burst-eks) to burst to Amazon EKS
+ - [flux-burst-compute-engine](https://github.com/converged-computing/flux-burst-compute-engine) to burst to Google Cloud Copute Engine
 
 ## Questions
 
