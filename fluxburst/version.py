@@ -15,7 +15,7 @@ LICENSE = "LICENSE"
 ################################################################################
 # Global requirements
 
-INSTALL_REQUIRES = (("ruamel.yaml", {"min_version": None}),)
+INSTALL_REQUIRES = (("pyyaml", {"min_version": None}),)
 
 INSTALL_REQUIRES_KUBERNETES = (
     ("kubernetes", {"min_version": None}),

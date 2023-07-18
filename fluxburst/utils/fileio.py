@@ -13,12 +13,9 @@ import stat
 import tempfile
 from contextlib import contextmanager
 
-from fluxburst.logger import logger
+import yaml
 
-try:
-    from ruamel_yaml import YAML
-except ImportError:
-    from ruamel.yaml import YAML
+from fluxburst.logger import logger
 
 
 @contextmanager
@@ -221,9 +218,6 @@ def write_yaml(obj, filename):
     """
     Save yaml to file, also preserving comments.
     """
-    yaml = YAML()
-    yaml.preserve_quotes = True
-
     with open(filename, "w") as fd:
         yaml.dump(obj, fd)
 
@@ -232,9 +226,8 @@ def read_yaml(filename):
     """
     Load a yaml from file, roundtrip to preserve comments
     """
-    yaml = YAML()
     with open(filename, "r") as fd:
-        content = yaml.load(fd.read())
+        content = yaml.safe_load(fd)
     return content
 
 
