@@ -162,7 +162,11 @@ class FluxBurst:
         will simply request creation for the size/tasks needed.
         """
         # TODO what to do with unmatched jobs?
-        unmatched = self.process_queue()
+        unmatched, has_jobs = self.process_queue()
+
+        # Cut out early if no jobs
+        if not has_jobs:
+            return unmatched
 
         # When we get here, run the bursts
         for _, plugin in self.iter_plugins():
@@ -209,6 +213,8 @@ class FluxBurst:
         # Run filters across queue to select jobs
         # This is a dict, keys with job id, values jobinfo
         jobs = self.select_jobs()
+        if not jobs:
+            return [], False
 
         # Going through plugins, determine if matches and can run
         unmatched = []
@@ -229,7 +235,7 @@ class FluxBurst:
 
         if unmatched:
             logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
-        return unmatched
+        return unmatched, True
 
     def mark_as_scheduled(self, job, plugin_name):
         """
