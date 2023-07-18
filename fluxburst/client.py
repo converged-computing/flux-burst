@@ -112,10 +112,20 @@ class FluxBurst:
     def reset_selector(self):
         self._job_selector = selectors.is_burstable
 
-    def wait_for_jobs(self, jobids, states=None):
+    def list_jobs(self):
+        """
+        Get all job ids in the instance.
+        """
+        listing = self.flux.list_jobs()
+        return [job["id"] for job in listing.get("jobs", [])]
+
+    def wait_for_jobs(self, jobids=None, states=None):
         """
         Wait for jobs to reach one or more states.
         """
+        jobids = jobids or self.list_jobs()
+        logger.debug(f"Waiting for {len(jobids)} to be done")
+
         # Assume we allow jobs to complete or fail
         states = states or ["CD", "F"]
 
@@ -131,7 +141,8 @@ class FluxBurst:
         """
         Given a plugin has an unburst function, run it.
         """
-        # When we get here, run the bursts
+        # When we get here, undo the bursts
+        # It assumes all jobs are done
         for _, plugin in self.iter_plugins():
             if not hasattr(plugin, "unburst"):
                 continue
