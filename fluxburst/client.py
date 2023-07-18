@@ -132,7 +132,9 @@ class FluxBurst:
 
         while jobids:
             jobid = jobids.pop(0)
-            if self.flux.state(jobid) not in states:
+            state = self.flux.state(jobid)
+            print(state)
+            if state not in states:
                 jobids.append(jobid)
             time.sleep(5)
             logger.debug(f"Waiting for {len(jobids)} to be done")
