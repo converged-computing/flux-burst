@@ -4,13 +4,17 @@
 # SPDX-License-Identifier: (MIT)
 
 import collections
+import time
 
 import fluxburst.handles as handles
 import fluxburst.selectors as selectors
 import fluxburst.sorting as sorting
-from fluxburst.logger import logger
+from fluxburst.logger import setup_logger
 
 from .plugins import burstable_plugins
+
+setup_logger(quiet=False, debug=True)
+from fluxburst.logger import logger  # noqa
 
 
 class FluxBurst:
@@ -109,6 +113,43 @@ class FluxBurst:
     def reset_selector(self):
         self._job_selector = selectors.is_burstable
 
+    def list_jobs(self):
+        """
+        Get all job ids in the instance.
+        """
+        listing = self.flux.list_jobs()
+        return [job["id"] for job in listing.get("jobs", [])]
+
+    def wait_for_jobs(self, jobids=None, states=None):
+        """
+        Wait for jobs to reach one or more states.
+        """
+        jobids = list(set(jobids or self.list_jobs()))
+        logger.debug(f"Waiting for {len(jobids)} to be done")
+
+        # Assume we allow jobs to complete or fail
+        states = states or ["INACTIVE"]
+
+        while jobids:
+            jobid = jobids.pop(0)
+            state = self.flux.state(jobid)
+            logger.debug(f"Job {jobid} is in state {state}")
+            if state not in states:
+                jobids.append(jobid)
+            time.sleep(5)
+            logger.debug(f"Waiting for {len(jobids)} to be done")
+
+    def run_unburst(self):
+        """
+        Given a plugin has an unburst function, run it.
+        """
+        # When we get here, undo the bursts
+        # It assumes all jobs are done
+        for _, plugin in self.iter_plugins():
+            if not hasattr(plugin, "unburst"):
+                continue
+            plugin.unburst()
+
     def run_burst(self, request_burst=False, nodes=None, tasks=None):
         """
         A full run burst includes:
@@ -121,7 +162,11 @@ class FluxBurst:
         will simply request creation for the size/tasks needed.
         """
         # TODO what to do with unmatched jobs?
-        unmatched = self.process_queue()
+        unmatched, has_jobs = self.process_queue()
+
+        # Cut out early if no jobs
+        if not has_jobs:
+            return unmatched
 
         # When we get here, run the bursts
         for _, plugin in self.iter_plugins():
@@ -168,6 +213,8 @@ class FluxBurst:
         # Run filters across queue to select jobs
         # This is a dict, keys with job id, values jobinfo
         jobs = self.select_jobs()
+        if not jobs:
+            return [], False
 
         # Going through plugins, determine if matches and can run
         unmatched = []
@@ -188,7 +235,7 @@ class FluxBurst:
 
         if unmatched:
             logger.warning(f"There are {len(unmatched)} jobs that cannot be bursted.")
-        return unmatched
+        return unmatched, True
 
     def mark_as_scheduled(self, job, plugin_name):
         """

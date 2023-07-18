@@ -24,7 +24,7 @@ Current and desired plugins are:
  - [flux-burst-local](https://github.com/converged-computing/flux-burst-local) to "burst" on a local HPC system
  - [flux-burst-gke](https://github.com/converged-computing/flux-burst-gke) to burst to Google Kubernetes Engine
  - [flux-burst-eks](https://github.com/converged-computing/flux-burst-eks) to burst to Amazon EKS
- - [flux-burst-compute-engine](https://github.com/converged-computing/flux-burst-compute-engine) to burst to Google Cloud Copute Engine
+ - [flux-burst-compute-engine](https://github.com/converged-computing/flux-burst-compute-engine) to burst to Google Cloud Compute Engine
 
 ## Questions
 

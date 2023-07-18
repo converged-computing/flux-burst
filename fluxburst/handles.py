@@ -17,13 +17,17 @@ class FluxMock:
     """
 
     def __init__(self, *args, **kwargs):
-        pass
+        # Default state to return
+        self.job_state = kwargs.get("state") or "INACTIVE"
 
     def update_jobspec(self, job):
         """
         Update a jobspec via the kvs
         """
         pass
+
+    def state(self, jobid):
+        return self.job_state
 
     def list_jobs(self):
         """
@@ -192,6 +196,26 @@ class FluxHandle:
         if not self._handle:
             self._handle = flux.Flux()
         return self._handle
+
+    def state(self, jobid):
+        """
+        Get the state (string) for a jobid
+        """
+        import flux.job
+
+        jobid = flux.job.JobID(jobid)
+        payload = {"id": jobid, "attrs": ["all"]}
+        rpc = flux.job.list.JobListIdRPC(self.handle, "job-list.list-id", payload)
+        try:
+            jobinfo = rpc.get()
+        # The job does not exist, assume completed
+        except FileNotFoundError:
+            return "INACTIVE"
+
+        # User friendly string from integer
+        jobinfo = jobinfo["job"]
+        state = jobinfo["state"]
+        return flux.job.info.statetostr(state)
 
     def update_jobspec(self, job):
         """
