@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (MIT)
 
 import collections
+import time
 
 import fluxburst.handles as handles
 import fluxburst.selectors as selectors
@@ -132,10 +133,9 @@ class FluxBurst:
         while jobids:
             jobid = jobids.pop(0)
             if self.flux.state(jobid) not in states:
-                print(f"🤔️ Job {jobid} is not finished yet")
                 jobids.append(jobid)
-            else:
-                print(f"😁️ Job {jobid} is finished!")
+            time.sleep(5)
+            logger.debug(f"Waiting for {len(jobids)} to be done")
 
     def run_unburst(self):
         """
