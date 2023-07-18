@@ -124,16 +124,16 @@ class FluxBurst:
         """
         Wait for jobs to reach one or more states.
         """
-        jobids = jobids or self.list_jobs()
+        jobids = list(set(jobids or self.list_jobs()))
         logger.debug(f"Waiting for {len(jobids)} to be done")
 
         # Assume we allow jobs to complete or fail
-        states = states or ["CD", "F"]
+        states = states or ["INACTIVE"]
 
         while jobids:
             jobid = jobids.pop(0)
             state = self.flux.state(jobid)
-            print(state)
+            logger.debug(f"Job {jobid} is in state {state}")
             if state not in states:
                 jobids.append(jobid)
             time.sleep(5)
