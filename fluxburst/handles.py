@@ -18,7 +18,7 @@ class FluxMock:
 
     def __init__(self, *args, **kwargs):
         # Default state to return
-        self.job_state = kwargs.get("state") or "CD"
+        self.job_state = kwargs.get("state") or "INACTIVE"
 
     def update_jobspec(self, job):
         """
@@ -210,7 +210,7 @@ class FluxHandle:
             jobinfo = rpc.get()
         # The job does not exist, assume completed
         except FileNotFoundError:
-            return "CD"
+            return "INACTIVE"
 
         # User friendly string from integer
         jobinfo = jobinfo["job"]
