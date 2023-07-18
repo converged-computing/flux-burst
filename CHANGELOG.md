@@ -14,6 +14,7 @@ and **Merged pull requests**. Critical items to know are:
 The versions coincide with releases on pip. Only major versions will be released as tags on Github.
 
 ## [0.0.x](https://github.com/converged-computing/flux-burst/tree/main) (0.0.x)
+ - support for unburst (0.0.15)
  - tweaks for local bursting (0.0.14)
  - working kvs (workaround) (0.0.13)
  - plugin-specific validation, ability to request burst (0.0.12)
