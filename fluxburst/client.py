@@ -8,9 +8,12 @@ import collections
 import fluxburst.handles as handles
 import fluxburst.selectors as selectors
 import fluxburst.sorting as sorting
-from fluxburst.logger import logger
+from fluxburst.logger import setup_logger
 
 from .plugins import burstable_plugins
+
+setup_logger(quiet=False, debug=True)
+from fluxburst.logger import logger  # noqa
 
 
 class FluxBurst:
@@ -108,6 +111,31 @@ class FluxBurst:
 
     def reset_selector(self):
         self._job_selector = selectors.is_burstable
+
+    def wait_for_jobs(self, jobids, states=None):
+        """
+        Wait for jobs to reach one or more states.
+        """
+        # Assume we allow jobs to complete or fail
+        states = states or ["CD", "F"]
+
+        while jobids:
+            jobid = jobids.pop(0)
+            if self.flux.state(jobid) not in states:
+                print(f"🤔️ Job {jobid} is not finished yet")
+                jobids.append(jobid)
+            else:
+                print(f"😁️ Job {jobid} is finished!")
+
+    def run_unburst(self):
+        """
+        Given a plugin has an unburst function, run it.
+        """
+        # When we get here, run the bursts
+        for _, plugin in self.iter_plugins():
+            if not hasattr(plugin, "unburst"):
+                continue
+            plugin.unburst()
 
     def run_burst(self, request_burst=False, nodes=None, tasks=None):
         """
