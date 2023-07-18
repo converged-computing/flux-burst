@@ -15,17 +15,12 @@ LICENSE = "LICENSE"
 ################################################################################
 # Global requirements
 
-INSTALL_REQUIRES = (
-    ("ruamel.yaml", {"min_version": None}),
-    ("jsonschema", {"min_version": None}),
-    ("rich", {"min_version": None}),
-    ("oras", {"min_version": None}),
-    ("requests", {"min_version": None}),
-)
+INSTALL_REQUIRES = (("ruamel.yaml", {"min_version": None}),)
 
 INSTALL_REQUIRES_KUBERNETES = (
     ("kubernetes", {"min_version": None}),
     ("fluxoperator", {"min_version": None}),
+    ("requests", {"min_version": None}),
 )
 
 TESTS_REQUIRES = (("pytest", {"min_version": "4.6.2"}),)
