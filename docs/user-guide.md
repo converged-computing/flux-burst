@@ -35,7 +35,10 @@ $ python3 -m pip install flux-burst
 Bursting plugins are customized by way of installing a plugin with prefix `fluxburst_<name>` and then
 loading them with your client. The following plugins have been developed:
 
- - [Google Cloud GKE](https://github.com/converged-computing/flux-burst-gke): using the Flux Operator
+ - [flux-burst-local](https://github.com/converged-computing/flux-burst-local) to "burst" on a local HPC system
+ - [flux-burst-gke](https://github.com/converged-computing/flux-burst-gke) to burst to Google Kubernetes Engine
+ - [flux-burst-eks](https://github.com/converged-computing/flux-burst-eks) to burst to Amazon EKS
+ - [flux-burst-compute-engine](https://github.com/converged-computing/flux-burst-compute-engine) to burst to Google Cloud Compute Engine
 
 
 We would idealistically like to develop the following:
