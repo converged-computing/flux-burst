@@ -67,8 +67,8 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "Cloud Select"
-copyright = "2022, LLNL LLC Converged Computing Contributors"
+project = "Flux Burst"
+copyright = "2023, LLNL LLC Converged Computing Contributors"
 author = "Vanessa Sochat"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -262,7 +262,7 @@ html_theme_options = {
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "CloudSelect"
+htmlhelp_basename = "FluxBurst"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -287,8 +287,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "CloudSelect.tex",
-        "Cloud Select API Documentation",
+        "FluxBurst.tex",
+        "Flux Burst API Documentation",
         "Vanessa Sochat",
         "manual",
     ),
@@ -334,8 +334,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "cloud-select",
-        "Cloud Select API Documentation",
+        "flux-burst",
+        "Flux Burst API Documentation",
         [author],
         1,
     )
@@ -354,11 +354,11 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "CloudSelectAPI",
-        "Cloud Select API Documentation",
+        "FluxBurstAPI",
+        "Flux Burst API Documentation",
         author,
-        "CloudSelectAPI",
-        "Tool to select cloud resources",
+        "FluxBurstAPI",
+        "Burst to external resources",
         "Miscellaneous",
     ),
 ]

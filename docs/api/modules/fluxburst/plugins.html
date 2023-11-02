@@ -3,33 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fluxburst.plugins &mdash; Cloud Select 1 documentation</title>
+  <title>fluxburst.plugins &mdash; Flux Burst 1 documentation</title>
       <link rel="stylesheet" href="../../assets/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../assets/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../assets/js/html5shiv.min.js"></script>
   <![endif]-->
-
-        <script src="../../assets/jquery.js"></script>
-        <script src="../../assets/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../assets/documentation_options.js"></script>
-        <script src="../../assets/doctools.js"></script>
-        <script src="../../assets/sphinx_highlight.js"></script>
+  
+        <script src="../../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../../assets/doctools.js?v=888ff710"></script>
+        <script src="../../assets/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../assets/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-
-
+          
+          
           <a href="../../index.html">
-
+            
               <img src="../../assets/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -50,7 +50,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Cloud Select</a>
+          <a href="../../index.html">Flux Burst</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -67,7 +67,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
   <h1>Source code for fluxburst.plugins</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright 2023 Lawrence Livermore National Security, LLC and other</span>
 <span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
@@ -91,12 +91,17 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="BurstParameters"><a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstParameters">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="BurstParameters">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstParameters">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">BurstParameters</span><span class="p">:</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BurstPlugin"><a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin">[docs]</a><span class="k">class</span> <span class="nc">BurstPlugin</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BurstPlugin">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin">[docs]</a>
+<span class="k">class</span> <span class="nc">BurstPlugin</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The base class for a burst plugin defines needed functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -107,22 +112,50 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataclass</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">dataclass</span><span class="p">)</span>
 
-        <span class="c1"># Set of jobs assigned to be bursted</span>
+        <span class="c1"># Set of jobs assigned to be bursted, and bursted clusters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jobs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="BurstPlugin.schedule"><a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.schedule">[docs]</a>    <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+<div class="viewcode-block" id="BurstPlugin.schedule">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.schedule">[docs]</a>
+    <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attempt to schedule a job, if possible.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BurstPlugin.run"><a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BurstPlugin.run">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Main function to run a plugin with the set of burstable jobs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BurstPlugin.set_params"><a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dc</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BurstPlugin.cleanup">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.cleanup">[docs]</a>
+    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BurstPlugin.refresh_clusters">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.refresh_clusters">[docs]</a>
+    <span class="k">def</span> <span class="nf">refresh_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update known clusters from a list of those removed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">updated</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">:</span>
+                <span class="n">updated</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clusters</span> <span class="o">=</span> <span class="n">updated</span></div>
+
+
+<div class="viewcode-block" id="BurstPlugin.set_params">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.plugins.BurstPlugin.set_params">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Given known parameters, assert we have the correct dataclass</span>
 <span class="sd">        and update from the environment, etc.</span>
@@ -146,7 +179,9 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
         <span class="c1"># At this point we want to convert the args &lt;dataclasses&gt; back into dataclass</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">dc</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">dc</span></div>
+</div>
+
 </pre></div>
 
            </div>
@@ -156,13 +191,13 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, LLNL LLC Converged Computing Contributors.</p>
+    <p>&#169; Copyright 2023, LLNL LLC Converged Computing Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -173,7 +208,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

@@ -1,8 +1,4 @@
-# Clouds
-
-Cloud Select supports the following clouds. Note that currently, to generate your own updated cache of
-data you'll need to provide credentials for each. We are hoping to provide automation at some point
-## Frequently Asked Questions
+# Frequently Asked Questions
 
 ### What is a burst?
 

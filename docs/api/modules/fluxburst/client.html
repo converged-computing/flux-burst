@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fluxburst.client &mdash; Flux Burst 1 documentation</title>
+      <link rel="stylesheet" href="../../assets/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../assets/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../assets/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../assets/jquery.js?v=5d32c60e"></script>
+        <script src="../../assets/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../assets/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../../assets/doctools.js?v=888ff710"></script>
+        <script src="../../assets/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../assets/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../assets/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/fluxburst.html">fluxburst package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Flux Burst</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">fluxburst.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for fluxburst.client</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2023 Lawrence Livermore National Security, LLC and other</span>
+<span class="c1"># HPCIC DevTools Developers. See the top-level COPYRIGHT file for details.</span>
+<span class="c1">#</span>
+<span class="c1"># SPDX-License-Identifier: (MIT)</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">fluxburst.handles</span> <span class="k">as</span> <span class="nn">handles</span>
+<span class="kn">import</span> <span class="nn">fluxburst.selectors</span> <span class="k">as</span> <span class="nn">selectors</span>
+<span class="kn">import</span> <span class="nn">fluxburst.sorting</span> <span class="k">as</span> <span class="nn">sorting</span>
+<span class="kn">from</span> <span class="nn">fluxburst.logger</span> <span class="kn">import</span> <span class="n">setup_logger</span>
+
+<span class="kn">from</span> <span class="nn">.plugins</span> <span class="kn">import</span> <span class="n">burstable_plugins</span>
+
+<span class="n">setup_logger</span><span class="p">(</span><span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">fluxburst.logger</span> <span class="kn">import</span> <span class="n">logger</span>  <span class="c1"># noqa</span>
+
+
+<div class="viewcode-block" id="FluxBurst">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst">[docs]</a>
+<span class="k">class</span> <span class="nc">FluxBurst</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flux Burst Client</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mock</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new burst client.</span>
+
+<span class="sd">        Selectors: Process the current queue and add flags/filter jobs for plugins.</span>
+<span class="sd">        Plugins: take jobs that need bursting, and burst some subset.</span>
+<span class="sd">        A filter can (on the simplest terms) just look for a job flagged as</span>
+<span class="sd">        burstable. For more complex cases, it can perform it&#39;s own logic and</span>
+<span class="sd">        flag some subset as burstable instead. Validation is always done for</span>
+<span class="sd">        the top level module, howevert the validate boolean here determines</span>
+<span class="sd">        if the plugin should run its own validation function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_selector</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_plugins</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flux</span> <span class="o">=</span> <span class="n">handles</span><span class="o">.</span><span class="n">FluxMock</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">if</span> <span class="n">mock</span> <span class="k">else</span> <span class="n">handles</span><span class="o">.</span><span class="n">FluxHandle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_ordering</span><span class="p">(</span><span class="n">sorting</span><span class="o">.</span><span class="n">in_order</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span> <span class="o">=</span> <span class="n">validate</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">choices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">))</span>
+
+<div class="viewcode-block" id="FluxBurst.load">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.load">[docs]</a>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dataclass</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register a bursting plugin manually.</span>
+
+<span class="sd">        We assume a setup does not always want all plugins available.</span>
+<span class="sd">        The dataclass argument should be for the BurstParameters</span>
+<span class="sd">        specific to the plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">burstable_plugins</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not known. Choices are </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Validate the plugin, first plugin module then loaded class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">burstable_plugins</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">dataclass</span><span class="p">)</span>
+
+        <span class="c1"># We set the name attribute so it&#39;s always matched to the module</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_plugin_integrity</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="c1"># If the plugin does it&#39;s own validation, do here</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> did not validate and cannot be added.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.validate_module">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.validate_module">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the structure of the module.</span>
+
+<span class="sd">        We currently just require the init function to import and return the class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">burstable_plugins</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="s2">&quot;init&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is missing required init attribute to return BurstPlugin class.&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.validate_plugin">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.validate_plugin">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a plugin, and if valid, load into module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># This should return a boolean for valid or not</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;validate&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plugin</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.check_plugin_integrity">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.check_plugin_integrity">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_plugin_integrity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a plugin, and if valid, load into module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">required_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;_param_dataclass&quot;</span><span class="p">,</span> <span class="s2">&quot;set_params&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">required</span> <span class="ow">in</span> <span class="n">required_attributes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">required</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not valid, missing attribute or function </span><span class="si">{</span><span class="n">required</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.set_selector">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.set_selector">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register a job filter or selector for select_jobs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_selector</span> <span class="o">=</span> <span class="n">func</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.reset_plugins">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.reset_plugins">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.reset_selector">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.reset_selector">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_selector</span> <span class="o">=</span> <span class="n">selectors</span><span class="o">.</span><span class="n">is_burstable</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.list_jobs">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.list_jobs">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all job ids in the instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">listing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">list_jobs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">listing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jobs&quot;</span><span class="p">,</span> <span class="p">[])]</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.wait_for_jobs">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.wait_for_jobs">[docs]</a>
+    <span class="k">def</span> <span class="nf">wait_for_jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wait for jobs to reach one or more states.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jobids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">jobids</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_jobs</span><span class="p">()))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">jobids</span><span class="p">)</span><span class="si">}</span><span class="s2"> to be done&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Assume we allow jobs to complete or fail</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="n">states</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;INACTIVE&quot;</span><span class="p">]</span>
+
+        <span class="k">while</span> <span class="n">jobids</span><span class="p">:</span>
+            <span class="n">jobid</span> <span class="o">=</span> <span class="n">jobids</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Job </span><span class="si">{</span><span class="n">jobid</span><span class="si">}</span><span class="s2"> is in state </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+                <span class="n">jobids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">jobids</span><span class="p">)</span><span class="si">}</span><span class="s2"> to be done&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.run_unburst">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.run_unburst">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_unburst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a plugin has an unburst function, run it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># When we get here, undo the bursts</span>
+        <span class="c1"># It assumes all jobs are done</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_plugins</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;unburst&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">unburst</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.run_burst">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.run_burst">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_burst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_burst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A full run burst includes:</span>
+
+<span class="sd">        1. Selecting jobs using the client filter(s)</span>
+<span class="sd">        2. In the order of plugins desired, schedule jobs</span>
+<span class="sd">        3. Return back lookup of scheduled (by plugin)</span>
+
+<span class="sd">        If request_burst with nodes and tasks are required, each plugin</span>
+<span class="sd">        will simply request creation for the size/tasks needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO what to do with unmatched jobs?</span>
+        <span class="n">unmatched</span><span class="p">,</span> <span class="n">has_jobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_queue</span><span class="p">()</span>
+
+        <span class="c1"># Cut out early if no jobs</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_jobs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">unmatched</span>
+
+        <span class="c1"># When we get here, run the bursts</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_plugins</span><span class="p">():</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request_burst</span><span class="o">=</span><span class="n">request_burst</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="n">tasks</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unmatched</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.request_burst">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.request_burst">[docs]</a>
+    <span class="k">def</span> <span class="nf">request_burst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">tasks</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Request burst is a direct handle to get a plugin and request a burst.</span>
+
+<span class="sd">        In this case, we do not create MiniClusters to launch jobs to, but instead</span>
+<span class="sd">        create a connected cluster anticipating receiving jobs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">plugin</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2"> is not known.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">return</span> <span class="n">plugin</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request_burst</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="n">tasks</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.set_ordering">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.set_ordering">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_ordering</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a custom function that knows how to yield names, plugins.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iter_func</span> <span class="o">=</span> <span class="n">func</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.iter_plugins">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.iter_plugins">[docs]</a>
+    <span class="k">def</span> <span class="nf">iter_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Custom function to iterate over plugins</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_func</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_iter_func</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">in_order</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">plugin</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.process_queue">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.process_queue">[docs]</a>
+    <span class="k">def</span> <span class="nf">process_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process queue is the entrypoint to run one burst cycle.</span>
+
+<span class="sd">        We first apply any selectors to the queue, and then hand the</span>
+<span class="sd">        resulting filtered jobs off to burstable plugins. There could be</span>
+<span class="sd">        more fine-tuned logic for directing jobs to plugins.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Run filters across queue to select jobs</span>
+        <span class="c1"># This is a dict, keys with job id, values jobinfo</span>
+        <span class="n">jobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_jobs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">jobs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[],</span> <span class="kc">False</span>
+
+        <span class="c1"># Going through plugins, determine if matches and can run</span>
+        <span class="n">unmatched</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">jobs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">scheduled</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_plugins</span><span class="p">():</span>
+                <span class="c1"># Give to first burstable plugin that can accept</span>
+                <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">job</span><span class="p">):</span>
+                    <span class="c1"># Remove the burstable attribute so it isn&#39;t assigned to another</span>
+                    <span class="c1"># This is more for development - we could likely use a better way</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mark_as_scheduled</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">scheduled</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># But if we cannot match, return to caller</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">scheduled</span><span class="p">:</span>
+                <span class="n">unmatched</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">unmatched</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unmatched</span><span class="p">)</span><span class="si">}</span><span class="s2"> jobs that cannot be bursted.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unmatched</span><span class="p">,</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.mark_as_scheduled">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.mark_as_scheduled">[docs]</a>
+    <span class="k">def</span> <span class="nf">mark_as_scheduled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mark a job as scheduled.</span>
+
+<span class="sd">        For now, we just remove the burstable attribute to indicate</span>
+<span class="sd">        that it&#39;s been scheduled. We also add the plugin it was scheduled</span>
+<span class="sd">        with, in case we somehow need to regenerate/remember a burst.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Add an attribute that says &quot;this job is assigned to burstable plugin X&quot;</span>
+        <span class="n">job</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;attributes&quot;</span><span class="p">][</span><span class="s2">&quot;system&quot;</span><span class="p">][</span><span class="s2">&quot;burst-scheduled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin_name</span>
+
+        <span class="c1"># The job is no longer marked as burstable for other plugins</span>
+        <span class="k">if</span> <span class="s2">&quot;burstable&quot;</span> <span class="ow">in</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;attributes&quot;</span><span class="p">][</span><span class="s2">&quot;system&quot;</span><span class="p">]:</span>
+            <span class="k">del</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;attributes&quot;</span><span class="p">][</span><span class="s2">&quot;system&quot;</span><span class="p">][</span><span class="s2">&quot;burstable&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Update the KVS (is this possible)?</span>
+        <span class="c1"># This doesn&#39;t currently work, so not doing anything :)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">update_jobspec</span><span class="p">(</span><span class="n">job</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FluxBurst.select_jobs">
+<a class="viewcode-back" href="../../source/fluxburst.html#fluxburst.client.FluxBurst.select_jobs">[docs]</a>
+    <span class="k">def</span> <span class="nf">select_jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use filters to select jobs.</span>
+
+<span class="sd">        This step is agnostic to the burstable plugins - it is simply</span>
+<span class="sd">        deducing (via our selector function) what jobs are contenders</span>
+<span class="sd">        for bursting. See the README / documentation for example info.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Keep track of selected burstable jobs by id</span>
+        <span class="n">listing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">list_jobs</span><span class="p">()</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">listing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jobs&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">get_job_info</span><span class="p">(</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_selector</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🧋️  Job </span><span class="si">{</span><span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is marked for bursting.&quot;</span><span class="p">)</span>
+            <span class="n">selected</span><span class="p">[</span><span class="n">job</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">info</span>
+
+        <span class="c1"># We don&#39;t give a warning here, because likely there aren&#39;t</span>
+        <span class="c1"># jobs that are burstable (it&#39;s a more rare event)</span>
+        <span class="k">return</span> <span class="n">selected</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;[flux-burst-client]&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, LLNL LLC Converged Computing Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
